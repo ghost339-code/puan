@@ -1,14 +1,77 @@
+
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Imágenes de Puan</title><link rel="stylesheet" href="css/estilos.css"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imágenes de Puan</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
 <body>
-  <header><h1>¿De dónde es esta imagen?</h1></header>
-  <main class="contenedor tarjeta actividad">
-    <img class="imagen" src="https://placehold.co/700x350?text=Agregar+imagen+de+Puan" alt="Imagen de un lugar de Puan">
-    <h2>¿Qué lugar aparece?</h2>
-    <div class="opciones"><button class="opcion">Lugar 1</button><button class="opcion">Lugar 2</button><button class="opcion">Lugar 3</button></div>
-    <p id="mensaje"></p><a class="boton secundario" href="menu.html">Volver al menú</a>
-  </main>
-  <script src="js/imagenes-puan.js"></script>
+
+    <header>
+        <h1>¿De dónde es esta imagen?</h1>
+    </header>
+
+    <main class="contenedor tarjeta actividad">
+
+        <img class="imagen" src="img/malteria.jpg" alt="Imagen de un lugar de Puan">
+
+        <h2>¿Qué lugar aparece?</h2>
+
+        <div class="opciones">
+
+            <button class="opcion">laguna</button>
+
+            <button class="opcion">malteria</button>
+
+            <button class="opcion">poligono de tiro</button>
+
+        </div>
+
+        <p id="mensaje"></p>
+
+        <a class="boton secundario" href="menu.html">
+            Volver al menú
+        </a>
+
+        <a class="boton secundario" href="imagenes-puan1.html">
+            Siguiente
+        </a>
+
+    </main>
+
+    <script>
+
+        const opciones = document.querySelectorAll(".opcion");
+        const mensaje = document.getElementById("mensaje");
+
+        const respuestaCorrecta = "malteria";
+
+        opciones.forEach(function(boton) {
+
+            boton.addEventListener("click", function() {
+
+                if (boton.textContent.trim() === respuestaCorrecta) {
+
+                    mensaje.textContent = "¡Correcto! 🎉";
+                    mensaje.style.color = "green";
+
+                } else {
+
+                    mensaje.textContent = "¡Incorrecto! Intenta otra vez.";
+                    mensaje.style.color = "red";
+
+                }
+
+            });
+
+        });
+
+    </script>
+
 </body>
 </html>
+
