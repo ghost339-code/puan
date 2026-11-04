@@ -4,10 +4,15 @@
 <body>
   <header><h1>Mapa interactivo de Puan</h1></header>
   <main class="contenedor tarjeta actividad">
-    <img class="imagen" src="https://placehold.co/700x350?text=Agregar+mapa+de+Puan" alt="Mapa de Puan">
-    <p>Agregá botones para seleccionar lugares importantes.</p>
-    <div class="opciones"><button class="opcion">Lugar 1</button><button class="opcion">Lugar 2</button><button class="opcion">Lugar 3</button></div>
-    <p id="mensaje"></p><a class="boton secundario" href="menu.html">Volver al menú</a>
+    <img class="imagen" src="img\mapaPuan.png" alt="Mapa de Puan">
+    <p>Apendé sobre las ubicaciones más importantes de Puán</p>
+    <div class="opciones"><button class="opcion">Malteria Pampa S.A</button><button class="opcion">Laguna de Puán</button><button class="opcion">Milenium</button><button class="opcion">Polideportivo</button><button class="opcion">Predio de la FNCC</button><button class="opcion">Cancha de Tiro Federal</button><button class="opcion">Cancha de Puán Football Club</button></div>
+    <div id="informacion" class="informacion-lugar">
+    <h2 id="nombre-lugar"></h2>
+    <img id="imagen-lugar" src="" alt="">
+    <p id="descripcion-lugar"></p>
+</div>
+<a class="boton secundario" href="menu.html">Volver al menú</a>
   </main>
   <script src="js/mapa.js"></script>
 </body>
