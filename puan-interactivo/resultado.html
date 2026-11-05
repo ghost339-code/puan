@@ -1,9 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Resultado</title><link rel="stylesheet" href="css/estilos.css"></head>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resultados - Descubrí Puan</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+
+</head>
+
 <body>
-  <header><h1>Resultado final</h1></header>
-  <main class="contenedor tarjeta"><h2>¡Gracias por participar!</h2><p id="resultado">Tu puntaje aparecerá aquí.</p><a class="boton" href="index.html">Jugar nuevamente</a></main>
-  <script src="js/comun.js"></script>
+
+    <header>
+        <h1>Resultado final</h1>
+    </header>
+
+
+    <main class="contenedor tarjeta">
+
+        <h2 id="nombre">¡Gracias por participar!</h2>
+
+        <h1 id="puntaje">0 puntos</h1>
+
+        <h2 id="categoria">Tu clasificación</h2>
+
+        <p id="mensaje">
+            Tu resultado aparecerá aquí.
+        </p>
+
+
+        <hr>
+
+        <h2>Clasificación general</h2>
+
+        <p>Estos son los participantes con sus respectivos puntajes.</p>
+
+        <div id="clasificacion"></div>
+
+
+        <br>
+
+        <a class="boton" href="index.html" onclick="reiniciarPartida()">
+            Jugar nuevamente
+        </a>
+
+    </main>
+
+
+    <script src="js/comun.js"></script>
+
+    <script src="js/resultados.js"></script>
+
 </body>
+
 </html>
