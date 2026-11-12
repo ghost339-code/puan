@@ -1,13 +1,197 @@
+
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Reconocé nuestra escuela</title><link rel="stylesheet" href="css/estilos.css"></head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconocé nuestra escuela</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
 <body>
-  <header><h1>Reconocé nuestra escuela</h1></header>
-  <main class="contenedor tarjeta actividad">
-    <h2>Pregunta de ejemplo</h2><p>Agregá una fotografía o pista sobre la escuela.</p>
-    <div class="opciones"><button class="opcion">Respuesta 1</button><button class="opcion">Respuesta 2</button><button class="opcion">Respuesta 3</button></div>
-    <p id="mensaje"></p><a class="boton secundario" href="menu.html">Volver al menú</a>
-  </main>
-  <script src="js/escuela.js"></script>
+
+    <header>
+        <h1>Reconocé nuestra escuela</h1>
+    </header>
+
+    <main class="contenedor tarjeta actividad">
+
+        <!-- PREGUNTA 1 -->
+        <section class="pregunta">
+            <h2>¿En qué año se fundó la Escuela Técnica de Puán?</h2>
+            <p class="mensaje-respuesta"></p>
+
+            <div class="opciones">
+                <button class="opcion" data-correcta="true">En el año 1979</button>
+                <button class="opcion">En el año 1981</button>
+                <button class="opcion">En el año 1983</button>
+            </div>
+        </section>
+
+        <!-- PREGUNTA 2 -->
+        <section class="pregunta" hidden>
+            <h2>¿Quién fue Ángela Almeyra?</h2>
+            <p class="mensaje-respuesta"></p>
+
+            <div class="opciones">
+              <button class="opcion">La intendenta de Puán.</button>
+                <button class="opcion" data-correcta="true">La primera directora de la escuela.</button>
+                <button class="opcion">Una profesora de educación física.</button>
+            </div>
+        </section>
+
+        <!-- PREGUNTA 3 -->
+        <section class="pregunta" hidden>
+            <h2>¿Dónde funcionó la escuela durante sus primeros años?</h2>
+            <p class="mensaje-respuesta"></p>
+
+            <div class="opciones">
+                <button class="opcion">En la estación de trenes.</button>
+                <button class="opcion">En el hospital municipal.</button>
+                <button class="opcion" data-correcta="true">En las instalaciones de la Escuela Primaria N.º 1.</button>
+            </div>
+        </section>
+
+        <!-- PREGUNTA 4 -->
+        <section class="pregunta" hidden>
+            <h2>¿En qué año recibió las llaves del edificio actual?</h2>
+            <p class="mensaje-respuesta"></p>
+
+            <div class="opciones">
+                <button class="opcion" data-correcta="true">1981</button>
+                <button class="opcion">1995</button>
+                <button class="opcion">1975</button>
+            </div>
+        </section>
+
+        <!-- PREGUNTA 5 -->
+        <section class="pregunta" hidden>
+            <h2>¿Qué especialidades técnicas ofrece la institución?</h2>
+            <p class="mensaje-respuesta"></p>
+
+            <div class="opciones">
+                <button class="opcion" data-correcta="true">Electromecánica, Informática y Maestro Mayor de Obras.</button>
+                <button class="opcion">Gastronomía, música y danza.</button>
+                <button class="opcion">Medicina, abogacía y turismo.</button>
+            </div>
+        </section>
+
+        <!-- PREGUNTA 6 -->
+        <section class="pregunta" hidden>
+            <h2>¿Cuántos años dura la formación técnica secundaria?</h2>
+            <p class="mensaje-respuesta"></p>
+
+            <div class="opciones">
+                <button class="opcion">3 años</button>
+                <button class="opcion" data-correcta="true">7 años</button>
+                <button class="opcion">6 años</button>
+            </div>
+        </section>
+
+        <!-- PREGUNTA 7 -->
+        <section class="pregunta" hidden>
+            <h2>¿Por qué es importante la formación técnica?</h2>
+            <p class=" mensaje-respuesta"></p>
+
+            <div class="opciones">
+                <button class="opcion" data-correcta="true">Porque brinda conocimientos prácticos útiles para el trabajo.</button>
+                <button class="opcion">Porque evita tener que estudiar otras materias.</button>
+                <button class="opcion">Porque solamente se aprende a utilizar computadoras.</button>
+            </div>
+        </section>
+
+        <!-- MENSAJE FINAL -->
+        <p id="mensaje-final" aria-live="polite"></p>
+
+        <a class="boton secundario" href="menu.html">Volver al menú</a>
+
+    </main>
+
+    <script>
+
+        // Seleccionamos todas las preguntas
+        const preguntas = document.querySelectorAll(".pregunta");
+
+        // Comenzamos por la primera pregunta
+        let preguntaActual = 0;
+
+        // Tiempo para pasar a la siguiente pregunta
+        let tiempoEspera = 1500;
+
+        // Ocultamos todas menos la primera
+        preguntas.forEach((pregunta, indice) => {
+            pregunta.hidden = indice !== 0;
+        });
+
+        // Seleccionamos todos los botones
+        document.querySelectorAll(".opcion").forEach(boton => {
+
+            boton.addEventListener("click", function() {
+
+                // Evitamos que se pueda responder varias veces
+                const botones = preguntas[preguntaActual]
+                    .querySelectorAll(".opcion");
+
+                if (this.disabled) {
+                    return;
+                }
+
+                const mensaje = preguntas[preguntaActual]
+                    .querySelector(".mensaje-respuesta");
+
+                // Comprobamos la respuesta
+                if (this.dataset.correcta === "true") {
+
+                    mensaje.textContent =
+                        "¡Respuesta correcta! Pasando a la siguiente pregunta...";
+
+                    mensaje.style.color = "green";
+
+                    // Desactivamos los botones
+                    botones.forEach(b => b.disabled = true);
+
+                    // Esperamos y pasamos a la siguiente
+                    setTimeout(() => {
+
+                        // Ocultamos la pregunta actual
+                        preguntas[preguntaActual].hidden = true;
+
+                        // Avanzamos
+                        preguntaActual++;
+
+                        // Comprobamos si quedan preguntas
+                        if (preguntaActual < preguntas.length) {
+
+                            preguntas[preguntaActual].hidden = false;
+
+                        } else {
+
+                            // Terminó el juego
+                            document.getElementById("mensaje-final").textContent =
+                                "¡Felicitaciones! Terminaste el juego.";
+
+                            document.getElementById("mensaje-final")
+                                .style.color = "green";
+
+                        }
+
+                    }, tiempoEspera);
+
+                } else {
+
+                    mensaje.textContent =
+                        "¡Respuesta incorrecta! Intentá nuevamente.";
+
+                    mensaje.style.color = "red";
+
+                }
+
+            });
+
+        });
+
+    </script>
+
 </body>
 </html>
