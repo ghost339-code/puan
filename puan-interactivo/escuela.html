@@ -101,6 +101,44 @@
             </div>
         </section>
 
+         <!-- PREGUNTA 8 -->
+        <section class="pregunta" hidden>
+            <h2>¿Cuántos alumnos tiene la escuela?</h2>
+            <p class=" mensaje-respuesta"></p>
+
+            <div class="opciones">
+                <button class="opcion">Entre 200 y 300</button>
+                <button class="opcion">Entre 0 y 100</button>
+                 <button class="opcion" data-correcta="true">Entre 100 y 200</button>
+            </div>
+        </section>
+
+         <!-- PREGUNTA 9 -->
+       <section class="pregunta" hidden>
+    <h2>¿Con qué especialidad pueden finalizar sus estudios secundarios los estudiantes de la Modalidad Adultos?</h2>
+
+    <p class="mensaje-respuesta"></p>
+
+    <div class="opciones">
+        <button class="opcion">Electromecánica.</button>
+        <button class="opcion" data-correcta="true">Gestión y Administración.</button>
+        <button class="opcion">Informática.</button>
+    </div>
+</section>
+
+     <!-- PREGUNTA 9 -->
+       <section class="pregunta" hidden>
+    <h2>¿Quiénes crearon la impresora braille con gotas de cera y materiales reciclados?</h2>
+
+    <p class="mensaje-respuesta"></p>
+
+    <div class="opciones">
+        <button class="opcion">Alumnos de 7mo</button>
+        <button class="opcion" data-correcta="true">Alumnos de 5to</button>
+        <button class="opcion">Alumnos de 6to</button>
+    </div>
+</section>
+
         <!-- MENSAJE FINAL -->
         <p id="mensaje-final" aria-live="polite"></p>
 
@@ -108,90 +146,13 @@
 
     </main>
 
-    <script>
 
-        // Seleccionamos todas las preguntas
-        const preguntas = document.querySelectorAll(".pregunta");
 
-        // Comenzamos por la primera pregunta
-        let preguntaActual = 0;
+           <!-- SISTEMA COMPARTIDO DE PUNTAJES -->
+    <script src="js/comun.js"></script>
+      <script src="js/escuela.js"></script>
 
-        // Tiempo para pasar a la siguiente pregunta
-        let tiempoEspera = 1500;
-
-        // Ocultamos todas menos la primera
-        preguntas.forEach((pregunta, indice) => {
-            pregunta.hidden = indice !== 0;
-        });
-
-        // Seleccionamos todos los botones
-        document.querySelectorAll(".opcion").forEach(boton => {
-
-            boton.addEventListener("click", function() {
-
-                // Evitamos que se pueda responder varias veces
-                const botones = preguntas[preguntaActual]
-                    .querySelectorAll(".opcion");
-
-                if (this.disabled) {
-                    return;
-                }
-
-                const mensaje = preguntas[preguntaActual]
-                    .querySelector(".mensaje-respuesta");
-
-                // Comprobamos la respuesta
-                if (this.dataset.correcta === "true") {
-
-                    mensaje.textContent =
-                        "¡Respuesta correcta! Pasando a la siguiente pregunta...";
-
-                    mensaje.style.color = "green";
-
-                    // Desactivamos los botones
-                    botones.forEach(b => b.disabled = true);
-
-                    // Esperamos y pasamos a la siguiente
-                    setTimeout(() => {
-
-                        // Ocultamos la pregunta actual
-                        preguntas[preguntaActual].hidden = true;
-
-                        // Avanzamos
-                        preguntaActual++;
-
-                        // Comprobamos si quedan preguntas
-                        if (preguntaActual < preguntas.length) {
-
-                            preguntas[preguntaActual].hidden = false;
-
-                        } else {
-
-                            // Terminó el juego
-                            document.getElementById("mensaje-final").textContent =
-                                "¡Felicitaciones! Terminaste el juego.";
-
-                            document.getElementById("mensaje-final")
-                                .style.color = "green";
-
-                        }
-
-                    }, tiempoEspera);
-
-                } else {
-
-                    mensaje.textContent =
-                        "¡Respuesta incorrecta! Intentá nuevamente.";
-
-                    mensaje.style.color = "red";
-
-                }
-
-            });
-
-        });
-
-    </script>
+    
 
 </body>
 </html>
