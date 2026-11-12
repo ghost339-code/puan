@@ -1,59 +1,211 @@
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Proyecto Puan</title>
 
-    <title>Resultados - Descubrí Puan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <link rel="stylesheet" href="css/estilos.css">
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #071b36, #123d68, #071b36);
+            color: white;
+        }
 
+        .contenedor {
+            width: 100%;
+            max-width: 550px;
+            padding: 45px 30px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 22px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .titulo {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .subtitulo {
+            color: #d0deed;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .nombre {
+            font-size: 23px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .copa {
+            font-size: 85px;
+            margin: 15px 0;
+        }
+
+        .puntaje {
+            font-size: 55px;
+            font-weight: bold;
+            color: #ffd166;
+            margin: 15px 0;
+        }
+
+        .texto-puntos {
+            font-size: 16px;
+            color: #d0deed;
+        }
+
+        .categoria {
+            font-size: 26px;
+            margin: 25px 0 15px;
+            color: #ffd166;
+        }
+
+        .mensaje {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #e1eaf3;
+            margin-bottom: 30px;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #ffd166;
+            color: #102c4c;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: bold;
+            border-radius: 10px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .boton:hover {
+            background: #ffe09a;
+            transform: translateY(-3px);
+        }
+
+        .error {
+            color: #ffcccc;
+            font-size: 18px;
+            margin: 25px 0;
+        }
+    </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>Resultado final</h1>
-    </header>
+    <main class="contenedor">
 
+        <h1 class="titulo">¡Resultados!</h1>
 
-    <main class="contenedor tarjeta">
-
-        <h2 id="nombre">¡Gracias por participar!</h2>
-
-        <h1 id="puntaje">0 puntos</h1>
-
-        <h2 id="categoria">Tu clasificación</h2>
-
-        <p id="mensaje">
-            Tu resultado aparecerá aquí.
+        <p class="subtitulo">
+            Gracias por participar y descubrir más sobre Puan.
         </p>
 
+        <h2 class="nombre" id="nombre">Participante</h2>
 
-        <hr>
+        <div class="copa" id="copa">🏆</div>
 
-        <h2>Clasificación general</h2>
+        <p class="texto-puntos">Tu puntaje final</p>
 
-        <p>Estos son los participantes con sus respectivos puntajes.</p>
+        <div class="puntaje" id="puntaje">0</div>
 
-        <div id="clasificacion"></div>
+        <h2 class="categoria" id="categoria">
+            Visitante curioso
+        </h2>
 
+        <p class="mensaje" id="mensaje">
+            ¡Gracias por participar!
+        </p>
 
-        <br>
-
-        <a class="boton" href="index.html" onclick="reiniciarPartida()">
-            Jugar nuevamente
-        </a>
+        <button class="boton" onclick="volverAJugar()">
+            Volver a jugar
+        </button>
 
     </main>
 
-
     <script src="js/comun.js"></script>
 
-    <script src="js/resultados.js"></script>
+    <script>
+        // Si todavía no se finalizó la partida,
+        // se guarda el resultado automáticamente.
+        if (localStorage.getItem("puan_finalizado") !== "true") {
+            finalizarPartida();
+        }
+
+        const resultado = obtenerUltimoResultado();
+
+        if (resultado) {
+
+            document.getElementById("nombre").textContent =
+                "¡Felicitaciones, " + resultado.nombre + "!";
+
+            document.getElementById("puntaje").textContent =
+                resultado.puntaje;
+
+            const categoria = document.getElementById("categoria");
+            const copa = document.getElementById("copa");
+            const mensaje = document.getElementById("mensaje");
+
+            if (resultado.puntaje <= 40) {
+
+                categoria.textContent = "Visitante curioso";
+                copa.textContent = "🥉";
+                mensaje.textContent =
+                    "¡Buen comienzo! Te invitamos a seguir descubriendo todo lo que hace especial a Puan.";
+
+            } else if (resultado.puntaje <= 80) {
+
+                categoria.textContent = "Explorador de Puan";
+                copa.textContent = "🥈";
+                mensaje.textContent =
+                    "¡Muy bien! Conocés varios aspectos de nuestra localidad. ¡Seguí explorando!";
+
+            } else if (resultado.puntaje <= 120) {
+
+                categoria.textContent = "Conocedor local";
+                copa.textContent = "🏆";
+                mensaje.textContent =
+                    "¡Excelente! Demostraste tener un gran conocimiento sobre Puan.";
+
+            } else {
+
+                categoria.textContent = "Experto en Puan";
+                copa.textContent = "👑";
+                mensaje.textContent =
+                    "¡Increíble! Sos un verdadero experto en Puan. ¡Felicitaciones por tu conocimiento!";
+
+            }
+
+        } else {
+
+            document.getElementById("mensaje").textContent =
+                "Todavía no hay resultados disponibles.";
+
+        }
+
+        function volverAJugar() {
+            reiniciarPartida();
+            window.location.href = "index.html";
+        }
+    </script>
 
 </body>
-
 </html>
