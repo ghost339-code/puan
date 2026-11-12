@@ -1,10 +1,11 @@
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados - Proyecto Puan</title>
+    <title>Resultados | Proyecto Puan</title>
 
     <style>
         * {
@@ -20,91 +21,93 @@
             align-items: center;
             padding: 20px;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #071b36, #123d68, #071b36);
-            color: white;
+            background: #eef2f6;
+            color: #26384a;
         }
 
         .contenedor {
             width: 100%;
-            max-width: 550px;
-            padding: 45px 30px;
+            max-width: 520px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.09);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 22px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+            border-top: 6px solid #234d73;
         }
 
-        .titulo {
-            font-size: 30px;
+        h1 {
+            font-size: 28px;
+            color: #234d73;
             margin-bottom: 12px;
         }
 
-        .subtitulo {
-            color: #d0deed;
-            font-size: 16px;
+        .introduccion {
+            color: #687787;
+            line-height: 1.5;
             margin-bottom: 30px;
         }
 
         .nombre {
-            font-size: 23px;
-            margin-bottom: 20px;
-            color: #ffffff;
+            font-size: 21px;
+            margin-bottom: 25px;
         }
 
-        .copa {
-            font-size: 85px;
-            margin: 15px 0;
+        .etiqueta {
+            color: #687787;
+            font-size: 15px;
         }
 
         .puntaje {
-            font-size: 55px;
+            font-size: 58px;
             font-weight: bold;
-            color: #ffd166;
-            margin: 15px 0;
+            color: #234d73;
+            margin: 8px 0 25px;
         }
 
-        .texto-puntos {
-            font-size: 16px;
-            color: #d0deed;
+        .clasificacion {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
         }
 
-        .categoria {
-            font-size: 26px;
-            margin: 25px 0 15px;
-            color: #ffd166;
+        .clasificacion h2 {
+            color: #234d73;
+            font-size: 23px;
+            margin-top: 8px;
         }
 
         .mensaje {
-            font-size: 17px;
+            color: #586777;
             line-height: 1.6;
-            color: #e1eaf3;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
 
         .boton {
             display: inline-block;
-            padding: 14px 30px;
-            background: #ffd166;
-            color: #102c4c;
+            background: #234d73;
+            color: white;
+            padding: 13px 28px;
+            border-radius: 6px;
             text-decoration: none;
-            font-size: 17px;
-            font-weight: bold;
-            border-radius: 10px;
-            transition: 0.3s;
+            font-size: 16px;
             border: none;
             cursor: pointer;
         }
 
         .boton:hover {
-            background: #ffe09a;
-            transform: translateY(-3px);
+            background: #183954;
         }
 
-        .error {
-            color: #ffcccc;
-            font-size: 18px;
-            margin: 25px 0;
+        @media (max-width: 480px) {
+            .contenedor {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
         }
     </style>
 </head>
@@ -113,27 +116,25 @@
 
     <main class="contenedor">
 
-        <h1 class="titulo">¡Resultados!</h1>
+        <h1>Resultados</h1>
 
-        <p class="subtitulo">
-            Gracias por participar y descubrir más sobre Puan.
+        <p class="introduccion">
+            Gracias por participar en nuestras actividades
+            y conocer un poco más sobre Puan.
         </p>
 
         <h2 class="nombre" id="nombre">Participante</h2>
 
-        <div class="copa" id="copa">🏆</div>
-
-        <p class="texto-puntos">Tu puntaje final</p>
+        <p class="etiqueta">Puntaje total obtenido</p>
 
         <div class="puntaje" id="puntaje">0</div>
 
-        <h2 class="categoria" id="categoria">
-            Visitante curioso
-        </h2>
+        <section class="clasificacion">
+            <p class="etiqueta">Tu clasificación</p>
+            <h2 id="categoria">Visitante curioso</h2>
+        </section>
 
-        <p class="mensaje" id="mensaje">
-            ¡Gracias por participar!
-        </p>
+        <p class="mensaje" id="mensaje"></p>
 
         <button class="boton" onclick="volverAJugar()">
             Volver a jugar
@@ -144,8 +145,6 @@
     <script src="js/comun.js"></script>
 
     <script>
-        // Si todavía no se finalizó la partida,
-        // se guarda el resultado automáticamente.
         if (localStorage.getItem("puan_finalizado") !== "true") {
             finalizarPartida();
         }
@@ -154,50 +153,49 @@
 
         if (resultado) {
 
+            const puntos = Number(resultado.puntaje);
+
             document.getElementById("nombre").textContent =
                 "¡Felicitaciones, " + resultado.nombre + "!";
 
-            document.getElementById("puntaje").textContent =
-                resultado.puntaje;
+            document.getElementById("puntaje").textContent = puntos;
 
             const categoria = document.getElementById("categoria");
-            const copa = document.getElementById("copa");
             const mensaje = document.getElementById("mensaje");
 
-            if (resultado.puntaje <= 40) {
+            if (puntos <= 40) {
 
                 categoria.textContent = "Visitante curioso";
-                copa.textContent = "🥉";
                 mensaje.textContent =
-                    "¡Buen comienzo! Te invitamos a seguir descubriendo todo lo que hace especial a Puan.";
+                    "Este es el comienzo de tu recorrido. ¡Todavía queda mucho por descubrir sobre Puan!";
 
-            } else if (resultado.puntaje <= 80) {
+            } else if (puntos <= 80) {
 
                 categoria.textContent = "Explorador de Puan";
-                copa.textContent = "🥈";
                 mensaje.textContent =
-                    "¡Muy bien! Conocés varios aspectos de nuestra localidad. ¡Seguí explorando!";
+                    "¡Muy bien! Demostraste conocer varios aspectos de nuestra localidad.";
 
-            } else if (resultado.puntaje <= 120) {
+            } else if (puntos <= 120) {
 
                 categoria.textContent = "Conocedor local";
-                copa.textContent = "🏆";
                 mensaje.textContent =
-                    "¡Excelente! Demostraste tener un gran conocimiento sobre Puan.";
+                    "¡Excelente trabajo! Tenés un gran conocimiento sobre Puan.";
 
             } else {
 
                 categoria.textContent = "Experto en Puan";
-                copa.textContent = "👑";
                 mensaje.textContent =
-                    "¡Increíble! Sos un verdadero experto en Puan. ¡Felicitaciones por tu conocimiento!";
+                    "¡Felicitaciones! Alcanzaste el nivel más alto y demostraste conocer muy bien Puan.";
 
             }
 
         } else {
 
+            document.getElementById("nombre").textContent =
+                "Todavía no hay resultados";
+
             document.getElementById("mensaje").textContent =
-                "Todavía no hay resultados disponibles.";
+                "Participá en alguna actividad para obtener tu clasificación.";
 
         }
 
