@@ -1,1 +1,122 @@
 :root{--azul:#173f5f;--celeste:#3caea3;--amarillo:#f6d55c;--fondo:#f4f7fb;--texto:#243447}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--fondo);color:var(--texto)}header{padding:2rem 1rem;text-align:center;color:white;background:linear-gradient(135deg,var(--azul),var(--celeste))}.contenedor{width:min(900px,92%);margin:2rem auto}.tarjeta{background:white;border-radius:16px;padding:1.5rem;box-shadow:0 5px 18px #173f5f22}.tarjeta h2{color:var(--azul)}.boton,button{display:inline-block;border:0;border-radius:10px;padding:.85rem 1rem;font-size:1rem;cursor:pointer;text-decoration:none;text-align:center}.boton{background:var(--azul);color:white}.secundario{background:#e8f1f5;color:var(--azul);margin-top:1rem}.menu,.opciones{display:grid;gap:.8rem}.opcion{background:#e8f1f5;color:var(--texto)}.opcion:hover{background:var(--amarillo)}.imagen{display:block;width:min(100%,700px);margin:auto;border-radius:12px}#mensaje{min-height:1.5rem;font-weight:bold}footer{text-align:center;padding:1.5rem;color:#607080}@media(max-width:600px){header h1{font-size:1.7rem}}
+
+/* ===== INFORMACIÓN DE LOS LUGARES ===== */
+
+.informacion-lugar {
+    display: none;
+    width: 90%;
+    max-width: 650px;
+    margin: 35px auto;
+    padding: 25px;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 18px;
+
+    text-align: center;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+
+    animation: aparecer 0.4s ease;
+}
+
+/* Nombre de cada lugar */
+
+.informacion-lugar h2 {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 0 20px 0;
+    color: inherit;
+    min-height: 32px;
+}
+
+/* Imágenes */
+
+#imagen-lugar {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    height: 260px;
+
+    object-fit: cover;
+    object-position: center;
+
+    margin: 0 auto 20px auto;
+
+    border-radius: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Descripciones */
+
+#descripcion-lugar {
+    font-size: 16px;
+    line-height: 1.7;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    color: inherit;
+}
+
+/* Botones de los lugares */
+
+.opciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.opcion {
+    padding: 11px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.opcion:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.12);
+}
+
+/* Animación */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Adaptación para celulares */
+
+@media (max-width: 600px) {
+    .informacion-lugar {
+        width: 95%;
+        padding: 18px;
+    }
+
+    .informacion-lugar h2 {
+        font-size: 22px;
+    }
+
+    #imagen-lugar {
+        height: 210px;
+    }
+
+    #descripcion-lugar {
+        font-size: 14px;
+    }
+
+    .opcion {
+        width: 100%;
+    }
+}
