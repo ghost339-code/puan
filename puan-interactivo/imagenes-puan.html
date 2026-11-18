@@ -1,7 +1,6 @@
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,12 +93,7 @@
             font-weight: bold;
             font-size: 18px;
         }
-
-        #resultadoFinal {
-            display: none;
-        }
     </style>
-
 </head>
 
 <body>
@@ -127,32 +121,11 @@
 
         <p id="mensaje"></p>
 
-        <div id="resultadoFinal">
-
-            <h2>¡Juego terminado! 🎉</h2>
-
-            <h3 id="total"></h3>
-
-            <p>¡Gracias por participar!</p>
-
-            <button class="boton" onclick="reiniciarJuego()">
-                Jugar nuevamente
-            </button>
-
-            <br><br>
-
-            <a class="boton" href="menu.html">
-                Volver al menú
-            </a>
-
-        </div>
-
         <a class="boton" href="menu.html" id="volver">
             Volver al menú
         </a>
 
     </main>
-
 
     <script>
 
@@ -304,8 +277,15 @@
         function cargarImagen() {
 
             if (numeroImagen >= preguntas.length) {
-                mostrarResultado();
+
+                imagen.style.display = "none";
+                progreso.style.display = "none";
+                document.getElementById("pregunta").style.display = "none";
+                opciones.style.display = "none";
+
+                mensaje.textContent = "¡Completaste todas las imágenes!";
                 return;
+
             }
 
             respondido = false;
@@ -328,7 +308,6 @@
             };
 
             imagen.src = actual.imagen;
-
             imagen.alt = "Imagen de Puan";
 
             progreso.textContent =
@@ -377,7 +356,7 @@
             if (respuesta === correcta) {
 
                 mensaje.textContent =
-                    "¡Correcto! 🎉 Sumaste 10 puntos.";
+                    "¡Correcto!  Sumaste 10 puntos.";
 
                 mensaje.style.color = "green";
 
@@ -418,75 +397,21 @@
         }
 
 
-        // RESULTADO FINAL
-
-        function mostrarResultado() {
-
-            imagen.style.display = "none";
-
-            progreso.style.display = "none";
-
-            document.getElementById("pregunta").style.display = "none";
-
-            opciones.style.display = "none";
-
-            mensaje.style.display = "none";
-
-            document.getElementById("volver").style.display = "none";
-
-            document.getElementById("resultadoFinal").style.display = "block";
-
-            document.getElementById("total").textContent =
-                "Tu puntaje final es: " + puntaje + " de 110 puntos.";
-
-            puntajeTexto.textContent =
-                "Puntaje final: " + puntaje + " puntos";
-
-        }
-
-
-        // REINICIAR JUEGO
-
-        function reiniciarJuego() {
-
-            numeroImagen = 0;
-
-            puntaje = 0;
-
-            respondido = false;
-
-            imagen.style.display = "block";
-
-            progreso.style.display = "block";
-
-            document.getElementById("pregunta").style.display = "block";
-
-            opciones.style.display = "flex";
-
-            mensaje.style.display = "block";
-
-            document.getElementById("volver").style.display = "inline-block";
-
-            document.getElementById("resultadoFinal").style.display = "none";
-
-            actualizarPuntaje();
-
-            cargarImagen();
-
-        }
-
-
         // INICIAR JUEGO
 
         cargarImagen();
 
     </script>
-    <script src="js/comun.js"></script>
-    <script src="js/imagenes-puan.js"></script>
 
+    <!-- ARCHIVOS DEL SISTEMA COMPARTIDO -->
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script src="js/comun.js"></script>
+<script src="js/imagenes-puan.js"></script>
 
 </body>
-
 </html>
 
