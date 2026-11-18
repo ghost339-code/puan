@@ -1,9 +1,209 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Resultado</title><link rel="stylesheet" href="css/estilos.css"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados | Proyecto Puan</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #eef2f6;
+            color: #26384a;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 520px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+            border-top: 6px solid #234d73;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #234d73;
+            margin-bottom: 12px;
+        }
+
+        .introduccion {
+            color: #687787;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .nombre {
+            font-size: 21px;
+            margin-bottom: 25px;
+        }
+
+        .etiqueta {
+            color: #687787;
+            font-size: 15px;
+        }
+
+        .puntaje {
+            font-size: 58px;
+            font-weight: bold;
+            color: #234d73;
+            margin: 8px 0 25px;
+        }
+
+        .clasificacion {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .clasificacion h2 {
+            color: #234d73;
+            font-size: 23px;
+            margin-top: 8px;
+        }
+
+        .mensaje {
+            color: #586777;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .boton {
+            display: inline-block;
+            background: #234d73;
+            color: white;
+            padding: 13px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .boton:hover {
+            background: #183954;
+        }
+
+        @media (max-width: 480px) {
+            .contenedor {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
 <body>
-  <header><h1>Resultado final</h1></header>
-  <main class="contenedor tarjeta"><h2>¡Gracias por participar!</h2><p id="resultado">Tu puntaje aparecerá aquí.</p><a class="boton" href="index.html">Jugar nuevamente</a></main>
-  <script src="js/comun.js"></script>
+
+    <main class="contenedor">
+
+        <h1>Resultados</h1>
+
+        <p class="introduccion">
+            Gracias por participar en nuestras actividades
+            y conocer un poco más sobre Puan.
+        </p>
+
+        <h2 class="nombre" id="nombre">Participante</h2>
+
+        <p class="etiqueta">Puntaje total obtenido</p>
+
+        <div class="puntaje" id="puntaje">0</div>
+
+        <section class="clasificacion">
+            <p class="etiqueta">Tu clasificación</p>
+            <h2 id="categoria">Visitante curioso</h2>
+        </section>
+
+        <p class="mensaje" id="mensaje"></p>
+
+        <button class="boton" onclick="volverAJugar()">
+            Volver a jugar
+        </button>
+
+    </main>
+
+    <script src="js/comun.js"></script>
+
+    <script>
+        if (localStorage.getItem("puan_finalizado") !== "true") {
+            finalizarPartida();
+        }
+
+        const resultado = obtenerUltimoResultado();
+
+        if (resultado) {
+
+            const puntos = Number(resultado.puntaje);
+
+            document.getElementById("nombre").textContent =
+                "¡Felicitaciones, " + resultado.nombre + "!";
+
+            document.getElementById("puntaje").textContent = puntos;
+
+            const categoria = document.getElementById("categoria");
+            const mensaje = document.getElementById("mensaje");
+
+            if (puntos <= 40) {
+
+                categoria.textContent = "Visitante curioso";
+                mensaje.textContent =
+                    "Este es el comienzo de tu recorrido. ¡Todavía queda mucho por descubrir sobre Puan!";
+
+            } else if (puntos <= 80) {
+
+                categoria.textContent = "Explorador de Puan";
+                mensaje.textContent =
+                    "¡Muy bien! Demostraste conocer varios aspectos de nuestra localidad.";
+
+            } else if (puntos <= 120) {
+
+                categoria.textContent = "Conocedor local";
+                mensaje.textContent =
+                    "¡Excelente trabajo! Tenés un gran conocimiento sobre Puan.";
+
+            } else {
+
+                categoria.textContent = "Experto en Puan";
+                mensaje.textContent =
+                    "¡Felicitaciones! Alcanzaste el nivel más alto y demostraste conocer muy bien Puan.";
+
+            }
+
+        } else {
+
+            document.getElementById("nombre").textContent =
+                "Todavía no hay resultados";
+
+            document.getElementById("mensaje").textContent =
+                "Participá en alguna actividad para obtener tu clasificación.";
+
+        }
+
+        function volverAJugar() {
+            reiniciarPartida();
+            window.location.href = "index.html";
+        }
+    </script>
+
 </body>
 </html>
