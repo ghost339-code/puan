@@ -1,14 +1,212 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Trivia sobre Puan</title><link rel="stylesheet" href="css/estilos.css"></head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trivia sobre Puán</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rosa:#ff8fb8; --rosa-fuerte:#e8588f; --rosa-claro:#ffe3ee;
+  --lila:#b9a7f5; --lila-claro:#ece6ff; --ciruela:#4a2545;
+  --crema:#fff8fb; --ok:#5cc9a0; --mal:#f2728a; --rosa-viejo:#c9909e;
+  --serif:"DM Serif Display",Georgia,serif;
+  --sans:"Quicksand","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{
+  font-family:var(--sans);color:var(--ciruela);
+  background:
+    radial-gradient(circle at 12% 18%,var(--rosa-claro) 0 18%,transparent 19%),
+    radial-gradient(circle at 90% 85%,var(--lila-claro) 0 22%,transparent 23%),
+    var(--crema);
+  display:grid;place-items:center;padding:20px;
+}
+.tarjeta{
+  width:min(560px,100%);background:#fff;border-radius:28px;
+  padding:34px 30px 30px;position:relative;z-index:1;
+  box-shadow:0 4px 0 var(--rosa),0 24px 50px rgba(232,88,143,.18);
+}
+.etiqueta{
+  position:absolute;top:-16px;left:26px;background:var(--rosa-fuerte);color:#fff;
+  padding:7px 18px;border-radius:999px;font-weight:700;font-size:.9rem;
+  transform:rotate(-3deg);box-shadow:0 4px 12px rgba(232,88,143,.35);
+}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,7vw,2.8rem);line-height:1.1;margin:10px 0 12px}
+h2{font-family:var(--serif);font-weight:400;font-size:1.55rem;line-height:1.25;margin:18px 0 20px}
+p{line-height:1.55;font-weight:500}
+.btn{
+  font:700 1rem var(--sans);color:#fff;background:var(--rosa-fuerte);border:0;
+  padding:14px 28px;border-radius:999px;cursor:pointer;margin-top:22px;
+  box-shadow:0 5px 0 #b93a6c;transition:transform .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 #b93a6c}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b93a6c}
+:focus-visible{outline:3px solid var(--lila);outline-offset:3px}
+.barra{height:12px;background:var(--rosa-claro);border-radius:999px;overflow:hidden;margin-top:6px}
+.barra span{display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--rosa),var(--lila));transition:width .5s ease}
+.meta{display:flex;justify-content:space-between;font-weight:700;font-size:.9rem;margin-top:8px}
+.opciones{display:grid;gap:12px}
+.op{
+  font:600 1rem var(--sans);color:var(--ciruela);text-align:left;cursor:pointer;
+  background:var(--crema);border:2px solid var(--rosa-claro);border-radius:16px;
+  padding:14px 16px;transition:transform .15s,border-color .15s,background .15s;
+}
+.op:hover:not(:disabled){border-color:var(--rosa);transform:translateX(4px)}
+.op:disabled{cursor:default}
+.op.ok{background:#e2f7ee;border-color:var(--ok)}
+.op.mal{background:#ffe6ec;border-color:var(--mal);animation:temblar .4s}
+@keyframes temblar{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.aviso{min-height:1.6em;margin-top:16px;font-weight:700}
+.pantalla{display:none}
+.pantalla.activa{display:block;animation:entrar .5s ease both}
+@keyframes entrar{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.puntaje{font-family:var(--serif);font-size:4.5rem;color:var(--rosa-fuerte);line-height:1;margin:12px 0}
+.centro{text-align:center}
+.volver{display:inline-block;margin-top:22px;color:var(--rosa-fuerte);font-weight:700;text-decoration:none}
+.volver:hover{text-decoration:underline}
+.chispa{position:fixed;top:-30px;pointer-events:none;animation:caer linear forwards;z-index:9}
+@keyframes caer{to{transform:translateY(110vh) rotate(360deg);opacity:.2}}
+
+.corazon-esquina{
+  position:fixed;bottom:0;right:26px;width:60px;height:38px;
+  overflow:hidden;z-index:0;pointer-events:none;
+}
+.corazon-esquina svg{
+  display:block;width:100%;transform:translateY(100%);
+  animation:asomar-corazon 7s ease-in-out infinite;
+}
+.corazon-esquina .cuerpo{fill:var(--rosa-viejo)}
+.corazon-esquina .ojo{fill:var(--ciruela)}
+.corazon-esquina .rubor{fill:#fff;opacity:.35}
+@keyframes asomar-corazon{
+  0%,28%{transform:translateY(100%)}
+  40%,60%{transform:translateY(0)}
+  72%,100%{transform:translateY(100%)}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
 <body>
-  <header><h1>Trivia sobre Puan</h1></header>
-  <main class="contenedor tarjeta actividad">
-    <h2>Pregunta de ejemplo</h2>
-    <p>Reemplazá esta pregunta por una relacionada con Puan.</p>
-    <div class="opciones"><button class="opcion">Opción 1</button><button class="opcion">Opción 2</button><button class="opcion">Opción 3</button></div>
-    <p id="mensaje"></p><a class="boton secundario" href="menu.html">Volver al menú</a>
-  </main>
-  <script src="js/trivia-puan.js"></script>
+
+<main class="tarjeta">
+  <div class="etiqueta">Trivia sobre Puán</div>
+
+  <section id="inicio" class="pantalla activa">
+    <h1>¿Cuánto sabés de Puán?</h1>
+    <p>Respondé 9 preguntas y descubrí tu puntaje final.</p>
+    <button class="btn" id="empezar">Empezar</button>
+  </section>
+
+  <section id="juego" class="pantalla">
+    <div class="meta"><span id="num"></span><span id="pts"></span></div>
+    <div class="barra"><span id="prog"></span></div>
+    <h2 id="pregunta"></h2>
+    <div class="opciones" id="opciones"></div>
+    <p class="aviso" id="aviso" aria-live="polite"></p>
+    <button class="btn" id="siguiente" hidden>Siguiente</button>
+  </section>
+
+  <section id="final" class="pantalla centro">
+    <h1 id="titulo-final"></h1>
+    <div class="puntaje" id="puntaje-final"></div>
+    <p id="mensaje-final"></p>
+    <button class="btn" id="reiniciar">Jugar de nuevo</button>
+  </section>
+
+  <a class="volver" href="menu.html">Volver al menú</a>
+</main>
+
+<div class="corazon-esquina" aria-hidden="true">
+  <svg viewBox="0 0 100 90">
+    <path class="cuerpo" d="M50 85 C10 55 0 35 0 22 C0 8 12 0 25 0 C37 0 46 6 50 15 C54 6 63 0 75 0 C88 0 100 8 100 22 C100 35 90 55 50 85Z"/>
+    <circle class="ojo" cx="34" cy="34" r="4.5"/>
+    <circle class="ojo" cx="66" cy="34" r="4.5"/>
+    <circle class="rubor" cx="24" cy="46" r="6"/>
+    <circle class="rubor" cx="76" cy="46" r="6"/>
+  </svg>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let i = 0, puntos = 0;
+
+const PREGUNTAS = [
+  {p:"¿Qué significa el nombre Puán?", o:["Tierra de vientos","Dos soles","Lugar de piedras"], c:1},
+  {p:"¿Qué hay en el medio de la Laguna de Puán?", o:["Un faro","Una isla","Un castillo"], c:1},
+  {p:"¿Qué animal prehistórico se puede conocer en el museo de Puán?", o:["Un dinosaurio carnívoro","Un gliptodonte","Un mamut lanudo"], c:1},
+  {p:"¿Qué tiene de particular el Mirador Millenium?", o:["Tiene rampas de acceso en espiral","Está construido dentro de la laguna","Es una torre de madera"], c:0},
+  {p:"¿Qué fiesta nacional es característica de Puán?", o:["Fiesta Nacional del Trigo","Fiesta Nacional de la Cebada Cervecera","Fiesta Nacional del Panqueque"], c:1},
+  {p:"¿Qué famoso cantante está relacionado con la llamada Casita de Gardel?", o:["Carlos Gardel","Atahualpa Yupanqui","Melbourne"], c:0},
+  {p:"Mito o realidad: ¿Es cierto que Carlos Gardel cantó en la famosa Casita de Gardel de Puán en 1924?", o:["Mito","Realidad"], c:1},
+  {p:"Mito o realidad: ¿En el distrito de Puán se encontraron restos de animales prehistóricos que vivieron hace miles de años?", o:["Mito","Realidad"], c:1},
+  {p:"Mito o realidad: ¿Puán fue fundado antes de 1850?",  o:["Mito","Realidad"], c:0}
+];
+
+function mostrar(id){
+  document.querySelectorAll(".pantalla").forEach(s => s.classList.remove("activa"));
+  $(id).classList.add("activa");
+}
+function cargar(){
+  const q = PREGUNTAS[i];
+  $("num").textContent = `Pregunta ${i+1} de ${PREGUNTAS.length}`;
+  $("pts").textContent = `⭐ ${puntos}`;
+  $("prog").style.width = (i / PREGUNTAS.length * 100) + "%";
+  $("pregunta").textContent = q.p;
+  $("aviso").textContent = "";
+  $("siguiente").hidden = true;
+  $("opciones").innerHTML = "";
+  q.o.forEach((t, n) => {
+    const b = document.createElement("button");
+    b.className = "op"; b.textContent = t;
+    b.onclick = () => responder(n);
+    $("opciones").appendChild(b);
+  });
+}
+function responder(n){
+  const q = PREGUNTAS[i], bs = document.querySelectorAll(".op");
+  bs.forEach(b => b.disabled = true);
+  bs[q.c].classList.add("ok");
+  if (n === q.c){ puntos++; $("aviso").textContent = "¡Correcto! 💖"; }
+  else { bs[n].classList.add("mal"); $("aviso").textContent = "Casi. La respuesta correcta está en verde."; }
+  $("pts").textContent = `⭐ ${puntos}`;
+  $("siguiente").textContent = i === PREGUNTAS.length - 1 ? "Ver resultado" : "Siguiente";
+  $("siguiente").hidden = false;
+  $("siguiente").focus();
+}
+function terminar(){
+  $("prog").style.width = "100%";
+  const total = PREGUNTAS.length, r = puntos / total;
+  $("puntaje-final").textContent = `${puntos}/${total}`;
+  $("titulo-final").textContent = r === 10 ? "¡Puntaje perfecto!" : r >= .60 ? "¡Muy bien!" : "¡Seguí practicando!";
+  $("mensaje-final").textContent = r >= .60
+    ? "Se nota que conocés Puán."
+    : "Repasá y volvé a intentarlo.";
+  mostrar("final");
+  if (r >= .60) lluvia();
+}
+function lluvia(){
+  const em = ["💖","✨","🌸","⭐","🎀"];
+  for (let k = 0; k < 24; k++){
+    const s = document.createElement("span");
+    s.className = "chispa"; s.textContent = em[k % em.length];
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.fontSize = 16 + Math.random() * 18 + "px";
+    s.style.animationDuration = 2.5 + Math.random() * 2.5 + "s";
+    s.style.animationDelay = Math.random() * 1.2 + "s";
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 7000);
+  }
+}
+
+$("empezar").onclick = () => { i = 0; puntos = 0; mostrar("juego"); cargar(); };
+$("siguiente").onclick = () => { i++; i < PREGUNTAS.length ? cargar() : terminar(); };
+$("reiniciar").onclick = () => $("empezar").click();
+</script>
 </body>
 </html>
