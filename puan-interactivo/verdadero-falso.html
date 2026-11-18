@@ -1,13 +1,550 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Verdadero o falso</title><link rel="stylesheet" href="css/estilos.css"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdadero o Falso | Puan Interactivo</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #f0f5ef;
+            color: #294333;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(35, 63, 48, 0.10);
+        }
+
+        h1 {
+            text-align: center;
+            color: #355e48;
+            margin-bottom: 10px;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #718174;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .pantalla {
+            display: none;
+        }
+
+        .pantalla.activa {
+            display: block;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 13px 22px;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .boton-principal {
+            width: 100%;
+            background: #355e48;
+            color: white;
+        }
+
+        .boton-principal:hover {
+            background: #233f30;
+        }
+
+        .botones {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .botones button {
+            flex: 1;
+        }
+
+        .verdadero {
+            background: #dcebdd;
+            color: #285438;
+        }
+
+        .falso {
+            background: #f5e4dc;
+            color: #854b36;
+        }
+
+        .verdadero:hover {
+            background: #c7dfca;
+        }
+
+        .falso:hover {
+            background: #efd2c4;
+        }
+
+        .progreso {
+            height: 9px;
+            background: #e5ece4;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .barra {
+            height: 100%;
+            width: 0%;
+            background: #6d9278;
+            transition: 0.3s;
+        }
+
+        .informacion {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: #718174;
+            font-size: 14px;
+        }
+
+        .categoria {
+            display: inline-block;
+            background: #e6efe5;
+            color: #355e48;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .pregunta {
+            font-size: 23px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            color: #294333;
+        }
+
+        .feedback {
+            display: none;
+            padding: 16px;
+            margin-top: 20px;
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        .correcto {
+            display: block;
+            background: #e5f2e5;
+            color: #285438;
+        }
+
+        .incorrecto {
+            display: block;
+            background: #f8e9e3;
+            color: #854b36;
+        }
+
+        .siguiente {
+            width: 100%;
+            margin-top: 18px;
+            background: #355e48;
+            color: white;
+            display: none;
+        }
+
+        .puntaje-final {
+            text-align: center;
+            font-size: 55px;
+            font-weight: bold;
+            color: #355e48;
+            margin: 20px 0;
+        }
+
+        .resultado-texto {
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .volver {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            background: #355e48;
+            color: white;
+            padding: 14px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .volver:hover {
+            background: #233f30;
+        }
+
+        @media (max-width: 500px) {
+            .contenedor {
+                padding: 25px 20px;
+            }
+
+            .pregunta {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
 <body>
-  <header><h1>Verdadero o falso</h1></header>
-  <main class="contenedor tarjeta actividad">
-    <h2>Frase de ejemplo</h2><p>Reemplazá esta frase por una relacionada con Puan o la escuela.</p>
-    <div class="opciones"><button class="opcion">Verdadero</button><button class="opcion">Falso</button></div>
-    <p id="mensaje"></p><a class="boton secundario" href="menu.html">Volver al menú</a>
-  </main>
-  <script src="js/verdadero-falso.js"></script>
+
+<main class="contenedor">
+
+    <!-- INICIO -->
+    <section id="inicio" class="pantalla activa">
+
+        <h1>Verdadero o Falso</h1>
+
+        <p class="descripcion">
+            ¡Poné a prueba cuánto sabés sobre Puan,
+            nuestra escuela y el mundo de la informática!
+        </p>
+
+        <button class="boton-principal" onclick="comenzar()">
+            Comenzar actividad
+        </button>
+
+    </section>
+
+
+    <!-- JUEGO -->
+    <section id="juego" class="pantalla">
+
+        <h1>¿Verdadero o falso?</h1>
+
+        <div class="informacion">
+            <span id="numero">Pregunta 1 de 10</span>
+            <span id="puntos">Puntos: 0</span>
+        </div>
+
+        <div class="progreso">
+            <div class="barra" id="barra"></div>
+        </div>
+
+        <span class="categoria" id="categoria"></span>
+
+        <h2 class="pregunta" id="pregunta"></h2>
+
+        <div class="botones">
+            <button class="verdadero" onclick="responder(true)">
+                Verdadero
+            </button>
+
+            <button class="falso" onclick="responder(false)">
+                Falso
+            </button>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <button
+            class="siguiente"
+            id="siguiente"
+            onclick="siguientePregunta()"
+        >
+            Siguiente pregunta
+        </button>
+
+    </section>
+
+
+    <!-- FINAL -->
+    <section id="final" class="pantalla">
+
+        <h1>¡Actividad terminada!</h1>
+
+        <p class="descripcion">
+            Gracias por participar y conocer un poco más sobre Puan.
+        </p>
+
+        <p class="resultado-texto">
+            ¡Completaste las 10 preguntas!
+        </p>
+
+        <p class="resultado-texto">Puntaje obtenido</p>
+
+        <div class="puntaje-final" id="puntajeFinal">0 / 110</div>
+
+        <p class="resultado-texto" id="mensajeFinal"></p>
+
+        <a href="index.html" class="volver">
+            Volver al menú
+        </a>
+
+    </section>
+
+</main>
+
+
+<script src="js/comun.js"></script>
+
+<script>
+
+    // VARIABLES DEL JUEGO
+
+    let puntos = 0;
+    let indice = 0;
+    let respondida = false;
+
+    const preguntas = [
+
+        {
+            categoria: "Puan",
+            pregunta: "Puan fue fundado el 5 de junio de 1876.",
+            respuesta: true,
+            explicacion: "¡Correcto! El 5 de junio de 1876 es la fecha de fundación de Puan.",
+            valor: 10
+        },
+
+        {
+            categoria: "Puan",
+            pregunta: "La Isla de Puan se encuentra en la Laguna de Guaminí.",
+            respuesta: false,
+            explicacion: "¡Incorrecto! La Isla de Puan se encuentra en la Laguna de Puan.",
+            valor: 10
+        },
+
+        {
+            categoria: "Puan",
+            pregunta: "Puan cuenta con una isla que lleva el mismo nombre que la localidad.",
+            respuesta: true,
+            explicacion: "¡Correcto! La Isla de Puan es uno de los lugares característicos de la localidad.",
+            valor: 10
+        },
+
+        {
+            categoria: "Puan",
+            pregunta: "La Fiesta Nacional de la Cebada Cervecera se realiza en Mar del Plata.",
+            respuesta: false,
+            explicacion: "¡Incorrecto! Esta fiesta tradicional se realiza en Puan.",
+            valor: 10
+        },
+
+        {
+            categoria: "Puan",
+            pregunta: "El Museo Municipal Ignacio Balvidares permite conocer parte de la historia local.",
+            respuesta: true,
+            explicacion: "¡Correcto! El museo conserva y comparte elementos de la historia de Puan.",
+            valor: 10
+        },
+
+        {
+            categoria: "Escuela",
+            pregunta: "La Escuela Secundaria N.º 1 de Puan lleva el nombre Ángela Almeyra.",
+            respuesta: true,
+            explicacion: "¡Correcto! Ese es el nombre de nuestra institución.",
+            valor: 10
+        },
+
+        {
+            categoria: "Escuela",
+            pregunta: "El trabajo en grupo impide compartir ideas y aprender de los demás.",
+            respuesta: false,
+            explicacion: "¡Incorrecto! El trabajo en grupo permite intercambiar ideas y aprender entre compañeros.",
+            valor: 10
+        },
+
+        {
+            categoria: "Escuela",
+            pregunta: "Las actividades escolares ayudan a desarrollar habilidades que también sirven fuera del aula.",
+            respuesta: true,
+            explicacion: "¡Correcto! Aprender también permite desarrollar habilidades para la vida cotidiana.",
+            valor: 10
+        },
+
+        {
+            categoria: "Informática",
+            pregunta: "CSS es un lenguaje utilizado principalmente para almacenar datos y variables.",
+            respuesta: false,
+            explicacion: "¡Incorrecto! CSS se utiliza para definir la apariencia y el diseño de las páginas web.",
+            valor: 10
+        },
+
+        {
+            categoria: "Informática",
+            pregunta: "Las variables permiten almacenar información durante la ejecución de un programa.",
+            respuesta: true,
+            explicacion: "¡Correcto! Las variables guardan datos que pueden utilizarse y modificarse en un programa.",
+            valor: 20
+        }
+
+    ];
+
+
+    // CAMBIAR DE PANTALLA
+
+    function mostrarPantalla(id) {
+
+        document.querySelectorAll(".pantalla").forEach(pantalla => {
+            pantalla.classList.remove("activa");
+        });
+
+        document.getElementById(id).classList.add("activa");
+    }
+
+
+    // COMENZAR ACTIVIDAD
+
+    function comenzar() {
+
+        puntos = 0;
+        indice = 0;
+
+        mostrarPantalla("juego");
+        mostrarPregunta();
+    }
+
+
+    // MOSTRAR PREGUNTA
+
+    function mostrarPregunta() {
+
+        respondida = false;
+
+        const actual = preguntas[indice];
+
+        document.getElementById("numero").textContent =
+            "Pregunta " + (indice + 1) + " de " + preguntas.length;
+
+        document.getElementById("puntos").textContent =
+            "Puntos: " + puntos;
+
+        document.getElementById("barra").style.width =
+            (indice / preguntas.length * 100) + "%";
+
+        document.getElementById("categoria").textContent =
+            actual.categoria;
+
+        document.getElementById("pregunta").textContent =
+            actual.pregunta;
+
+        document.getElementById("feedback").className = "feedback";
+        document.getElementById("feedback").textContent = "";
+
+        document.getElementById("siguiente").style.display = "none";
+
+        document.querySelectorAll(".botones button").forEach(boton => {
+            boton.disabled = false;
+            boton.style.opacity = "1";
+        });
+    }
+
+
+    // RESPONDER
+
+    function responder(respuestaUsuario) {
+
+        if (respondida) return;
+
+        respondida = true;
+
+        const actual = preguntas[indice];
+        const feedback = document.getElementById("feedback");
+
+        if (respuestaUsuario === actual.respuesta) {
+
+            puntos += actual.valor;
+
+            // Sumar los puntos al sistema general.
+            sumarPuntos(actual.valor);
+
+            feedback.className = "feedback correcto";
+
+            feedback.textContent =
+                "¡Muy bien! +" + actual.valor + " puntos. " +
+                actual.explicacion;
+
+        } else {
+
+            feedback.className = "feedback incorrecto";
+
+            feedback.textContent =
+                "¡No es correcto! No sumás puntos. " +
+                actual.explicacion;
+        }
+
+        document.getElementById("puntos").textContent =
+            "Puntos: " + puntos;
+
+        document.querySelectorAll(".botones button").forEach(boton => {
+            boton.disabled = true;
+            boton.style.opacity = "0.6";
+        });
+
+        document.getElementById("siguiente").style.display = "block";
+
+        if (indice === preguntas.length - 1) {
+            document.getElementById("siguiente").textContent =
+                "Ver resultado";
+        }
+    }
+
+
+    // SIGUIENTE PREGUNTA
+
+    function siguientePregunta() {
+
+        indice++;
+
+        if (indice < preguntas.length) {
+            mostrarPregunta();
+        } else {
+            terminarJuego();
+        }
+    }
+
+
+    // FINALIZAR ACTIVIDAD
+
+    function terminarJuego() {
+
+        document.getElementById("barra").style.width = "100%";
+
+        document.getElementById("puntajeFinal").textContent =
+            puntos + " / 110";
+
+        let mensaje = "";
+
+        if (puntos <= 40) {
+            mensaje = "Este es el comienzo de tu recorrido. ¡Todavía queda mucho por descubrir sobre Puan!";
+        } else if (puntos <= 80) {
+            mensaje = "¡Muy bien! Demostraste conocer varios aspectos de nuestra localidad.";
+        } else if (puntos <= 100) {
+            mensaje = "¡Excelente trabajo! Tenés un gran conocimiento sobre Puan.";
+        } else {
+            mensaje = "¡Felicitaciones! Alcanzaste el máximo puntaje. ¡Sos un experto en Puan!";
+        }
+
+        document.getElementById("mensajeFinal").textContent = mensaje;
+
+        mostrarPantalla("final");
+    }
+
+</script>
+
 </body>
 </html>
