@@ -1,4 +1,4 @@
-const preguntas = [
+  const preguntas = [
     {
         imagen: "img/terminal.jpg",
         correcta: "Terminal",
@@ -56,53 +56,34 @@ const preguntas = [
     }
 ];
 
-// VARIABLES
 let numeroImagen = 0;
-let puntosActividad = 0;
+let puntajeImagenes = 0;
 let respondido = false;
 
-// ELEMENTOS
 const imagen = document.getElementById("imagen");
 const opciones = document.getElementById("opciones");
 const mensaje = document.getElementById("mensaje");
 const puntajeTexto = document.getElementById("puntaje");
 const progreso = document.getElementById("progreso");
+const pregunta = document.getElementById("pregunta");
 
-// SUMAR PUNTOS IGUAL QUE VERDADERO O FALSO
-function sumar(n) {
-    localStorage.setItem(
-        "puntaje",
-        (Number(localStorage.getItem("puntaje")) || 0) + n
-    );
+// Sumar puntos al puntaje general
+function sumarPuntos(cantidad) {
+    let total = Number(localStorage.getItem("puntaje")) || 0;
+    total += cantidad;
+    localStorage.setItem("puntaje", total);
 }
 
-// ACTUALIZAR PUNTAJE
+// Mostrar puntaje
 function actualizarPuntaje() {
     puntajeTexto.textContent =
-        "Puntaje de esta actividad: " + puntosActividad + " puntos";
+        "Puntaje: " + puntajeImagenes + " puntos";
 }
 
-// CARGAR IMAGEN
+// Cargar imagen
 function cargarImagen() {
-
     if (numeroImagen >= preguntas.length) {
-
-        imagen.style.display = "none";
-        progreso.style.display = "none";
-        document.getElementById("pregunta").style.display = "none";
-        opciones.style.display = "none";
-
-        mensaje.textContent =
-            "¡Felicitaciones! Terminaste las 11 imágenes. " +
-            "Sumaste " + puntosActividad + " puntos.";
-
-        const botonMenu = document.createElement("a");
-        botonMenu.href = "menu.html";
-        botonMenu.className = "boton";
-        botonMenu.textContent = "Volver al menú";
-
-        document.querySelector("main").appendChild(botonMenu);
-
+        terminarJuego();
         return;
     }
 
@@ -111,25 +92,21 @@ function cargarImagen() {
     const actual = preguntas[numeroImagen];
 
     imagen.style.display = "block";
+    progreso.style.display = "block";
+    pregunta.style.display = "block";
     opciones.style.display = "flex";
-
-    imagen.onerror = function() {
-        mensaje.textContent =
-            "No se pudo cargar la imagen: " + actual.imagen;
-    };
 
     imagen.src = actual.imagen;
     imagen.alt = "Imagen de Puan";
 
     progreso.textContent =
-        "Imagen " + (numeroImagen + 1) +
-        " de " + preguntas.length;
+        "Imagen " + (numeroImagen + 1) + " de " + preguntas.length;
 
+    pregunta.textContent = "¿Qué lugar aparece?";
     mensaje.textContent = "";
     opciones.innerHTML = "";
 
     actual.opciones.forEach(function(respuesta) {
-
         const boton = document.createElement("button");
 
         boton.className = "opcion";
@@ -145,9 +122,8 @@ function cargarImagen() {
     actualizarPuntaje();
 }
 
-// COMPROBAR RESPUESTA
+// Comprobar respuesta
 function comprobarRespuesta(respuesta) {
-
     if (respondido) return;
 
     respondido = true;
@@ -155,18 +131,14 @@ function comprobarRespuesta(respuesta) {
     const correcta = preguntas[numeroImagen].correcta;
 
     if (respuesta === correcta) {
-
         mensaje.textContent = "¡Correcto! Sumaste 10 puntos.";
         mensaje.style.color = "green";
 
-        sumar(10);
-        puntosActividad += 10;
-
+        puntajeImagenes += 10;
+        sumarPuntos(10);
     } else {
-
         mensaje.textContent =
-            "¡Incorrecto! La respuesta correcta era: " + correcta;
-
+            "¡Incorrecto! La respuesta correcta era: " + correcta + ".";
         mensaje.style.color = "red";
     }
 
@@ -182,5 +154,44 @@ function comprobarRespuesta(respuesta) {
     }, 1500);
 }
 
-// INICIAR JUEGO
-cargarImagen();
+// Finalizar juego y guardar resultado
+function terminarJuego() {
+    imagen.style.display = "none";
+    progreso.style.display = "none";
+    pregunta.style.display = "none";
+    opciones.style.display = "none";
+
+    mensaje.textContent =
+        "¡Completaste todas las imágenes! Obtuviste " +
+        puntajeImagenes + " puntos.";
+
+    mensaje.style.color = "green";
+
+    const total = Number(localStorage.getItem("puntaje")) || 0;
+
+    const resultado = {
+        nombre: "Participante",
+        puntaje: total
+    };
+
+    localStorage.setItem("ultimoResultado", JSON.stringify(resultado));
+
+    let resultados = JSON.parse(localStorage.getItem("resultados")) || [];
+
+    const indice = resultados.findIndex(function(persona) {
+        return persona.nombre === "Participante";
+    });
+
+    if (indice >= 0) {
+        resultados[indice].puntaje = total;
+    } else {
+        resultados.push(resultado);
+    }
+
+    localStorage.setItem("resultados", JSON.stringify(resultados));
+
+    puntajeTexto.textContent = "Puntaje general: " + total + " puntos";
+}
+
+// Iniciar
+cargarImagen()
