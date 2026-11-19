@@ -1,10 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>¿De dónde es esta imagen? - Puan</title>
 
     <style>
@@ -93,319 +91,360 @@
             font-weight: bold;
             font-size: 18px;
         }
+
+        #volver {
+            margin-top: 15px;
+            background: #3caea3;
+        }
+
+        #volver:hover {
+            background: #27877e;
+        }
+
+        #resultadoFinal {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>¿De dónde es esta imagen?</h1>
-    </header>
-
-    <main>
-
-        <h3 id="puntaje">Puntaje: 0 puntos</h3>
-
-        <h3 id="progreso">Imagen 1 de 11</h3>
-
-        <img
-            id="imagen"
-            class="imagen"
-            src="img/terminal(1).jpg"
-            alt="Lugar de Puan"
-        >
-
-        <h2 id="pregunta">¿Qué lugar aparece?</h2>
-
-        <div class="opciones" id="opciones"></div>
-
-        <p id="mensaje"></p>
-
-        <a class="boton" href="menu.html" id="volver">
-            Volver al menú
-        </a>
-
-    </main>
-
-    <script>
-
-        // LISTA DE IMÁGENES Y RESPUESTAS
-
-        const preguntas = [
-
-            {
-                imagen: "img/terminal.jpg",
-                correcta: "Terminal",
-                opciones: [
-                    "Terminal",
-                    "Escuela Almafuerte",
-                    "Polideportivo"
-                ]
-            },
-
-            {
-                imagen: "img/palomar.jpg",
-                correcta: "Palomar",
-                opciones: [
-                    "Museo",
-                    "Palomar",
-                    "Estación de tren"
-                ]
-            },
-
-            {
-                imagen: "img/estaciondetren.jpg",
-                correcta: "Estación de tren",
-                opciones: [
-                    "Estación de tren",
-                    "malteria",
-                    "Laguna de Puan"
-                ]
-            },
-
-            {
-                imagen: "img/ruinas.jpg",
-                correcta: "Ruinas históricas",
-                opciones: [
-                    "Predio FNCC",
-                    "Ruinas históricas",
-                    "Terminal"
-                ]
-            },
-
-            {
-                imagen: "img/predio.jpg",
-                correcta: "Predio FNCC",
-                opciones: [
-                    "Polideportivo",
-                    "Predio FNCC",
-                    "Museo"
-                ]
-            },
-
-            {
-                imagen: "img/fuerte.jpg",
-                correcta: "fuerte de puan",
-                opciones: [
-                    "entrada de puan",
-                    "fuerte de puan",
-                    "Polideportivo"
-                ]
-            },
-
-            {
-                imagen: "img/polideportivo.jpg",
-                correcta: "Polideportivo",
-                opciones: [
-                    "Laguna de Puan",
-                    "Predio FNCC",
-                    "Polideportivo"
-                ]
-            },
+<header>
+    <h1>¿De dónde es esta imagen?</h1>
+</header>
+
+<main>
+
+    <h3 id="puntaje">Puntaje: 0 puntos</h3>
+
+    <h3 id="progreso">Imagen 1 de 11</h3>
+
+    <img
+        id="imagen"
+        class="imagen"
+        src="img/terminal.jpg"
+        alt="Lugar de Puan"
+    >
+
+    <h2 id="pregunta">¿Qué lugar aparece?</h2>
+
+    <div class="opciones" id="opciones"></div>
+
+    <p id="mensaje"></p>
+
+    <div id="resultadoFinal">
+        <h2>¡Juego terminado!</h2>
+        <h3 id="puntajeFinal"></h3>
+        <p>Tu resultado fue guardado correctamente.</p>
+    </div>
+
+    <a class="boton" href="menu.html" id="volver">
+        Volver al menú
+    </a>
+
+</main>
+
+<script>
+
+// ===================================
+// PREGUNTAS E IMÁGENES
+// ===================================
+
+const preguntas = [
+    {
+        imagen: "img/terminal.jpg",
+        correcta: "Terminal",
+        opciones: ["Terminal", "Escuela Almafuerte", "Polideportivo"]
+    },
+    {
+        imagen: "img/palomar.jpg",
+        correcta: "Palomar",
+        opciones: ["Museo", "Palomar", "Estación de tren"]
+    },
+    {
+        imagen: "img/estaciondetren.jpg",
+        correcta: "Estación de tren",
+        opciones: ["Estación de tren", "malteria", "Laguna de Puan"]
+    },
+    {
+        imagen: "img/ruinas.jpg",
+        correcta: "Ruinas históricas",
+        opciones: ["Predio FNCC", "Ruinas históricas", "Terminal"]
+    },
+    {
+        imagen: "img/predio.jpg",
+        correcta: "Predio FNCC",
+        opciones: ["Polideportivo", "Predio FNCC", "Museo"]
+    },
+    {
+        imagen: "img/fuerte.jpg",
+        correcta: "fuerte de puan",
+        opciones: ["entrada de puan", "fuerte de puan", "Polideportivo"]
+    },
+    {
+        imagen: "img/polideportivo.jpg",
+        correcta: "Polideportivo",
+        opciones: ["Laguna de Puan", "Predio FNCC", "Polideportivo"]
+    },
+    {
+        imagen: "img/centrodeinformatica.jpg",
+        correcta: "Centro de Informática",
+        opciones: ["Museo", "Centro de Informática", "Escuela Almafuerte"]
+    },
+    {
+        imagen: "img/museo.jpg",
+        correcta: "Museo",
+        opciones: ["Palomar", "Museo", "Terminal"]
+    },
+    {
+        imagen: "img/laguna.jpg",
+        correcta: "Laguna de Puan",
+        opciones: ["Laguna de Puan", "malteria", "Ruinas históricas"]
+    },
+    {
+        imagen: "img/malteria.jpg",
+        correcta: "malteria",
+        opciones: ["Estación de tren", "malteria", "Centro de Informática"]
+    }
+];
+
+
+// ===================================
+// VARIABLES
+// ===================================
 
-            {
-                imagen: "img/centrodeinformatica.jpg",
-                correcta: "Centro de Informática",
-                opciones: [
-                    "Museo",
-                    "Centro de Informática",
-                    "Escuela Almafuerte"
-                ]
-            },
+let numeroImagen = 0;
+let puntosActividad = 0;
+let respondido = false;
+let resultadoGuardado = false;
 
-            {
-                imagen: "img/museo.jpg",
-                correcta: "Museo",
-                opciones: [
-                    "Palomar",
-                    "Museo",
-                    "Terminal"
-                ]
-            },
 
-            {
-                imagen: "img/laguna.jpg",
-                correcta: "Laguna de Puan",
-                opciones: [
-                    "Laguna de Puan",
-                    "malteria",
-                    "Ruinas históricas"
-                ]
-            },
+// ===================================
+// ELEMENTOS HTML
+// ===================================
 
-            {
-                imagen: "img/malteria.jpg",
-                correcta: "malteria",
-                opciones: [
-                    "Estación de tren",
-                    "malteria",
-                    "Centro de Informática"
-                ]
-            }
+const imagen = document.getElementById("imagen");
+const opciones = document.getElementById("opciones");
+const mensaje = document.getElementById("mensaje");
+const puntajeTexto = document.getElementById("puntaje");
+const progreso = document.getElementById("progreso");
+const pregunta = document.getElementById("pregunta");
+const resultadoFinal = document.getElementById("resultadoFinal");
 
-        ];
 
+// ===================================
+// ACTUALIZAR PUNTAJE
+// ===================================
 
-        // VARIABLES
+function actualizarPuntaje() {
 
-        let numeroImagen = 0;
-        let puntaje = 0;
-        let respondido = false;
+    puntajeTexto.textContent =
+        "Puntaje: " + puntosActividad + " puntos";
 
+}
 
-        // ELEMENTOS
 
-        const imagen = document.getElementById("imagen");
-        const opciones = document.getElementById("opciones");
-        const mensaje = document.getElementById("mensaje");
-        const puntajeTexto = document.getElementById("puntaje");
-        const progreso = document.getElementById("progreso");
+// ===================================
+// GUARDAR PUNTAJE GENERAL
+// ===================================
 
+function sumarPuntos(cantidad) {
 
-        // ACTUALIZAR PUNTAJE
+    let total = Number(
+        localStorage.getItem("puan_puntaje") || 0
+    );
 
-        function actualizarPuntaje() {
+    total += cantidad;
 
-            puntajeTexto.textContent =
-                "Puntaje: " + puntaje + " puntos";
+    localStorage.setItem("puan_puntaje", total);
 
-        }
+}
 
 
-        // CARGAR IMAGEN
+// ===================================
+// GUARDAR RESULTADO FINAL
+// ===================================
 
-        function cargarImagen() {
+function guardarResultado() {
 
-            if (numeroImagen >= preguntas.length) {
+    if (resultadoGuardado) return;
 
-                imagen.style.display = "none";
-                progreso.style.display = "none";
-                document.getElementById("pregunta").style.display = "none";
-                opciones.style.display = "none";
+    resultadoGuardado = true;
 
-                mensaje.textContent = "¡Completaste todas las imágenes!";
-                return;
+    const nombre =
+        localStorage.getItem("puan_nombre") || "Participante";
 
-            }
+    const resultado = {
+        nombre: nombre,
+        actividad: "Imágenes de Puan",
+        puntaje: puntosActividad,
+        fecha: new Date().toLocaleDateString("es-AR")
+    };
 
-            respondido = false;
+    let resultados = JSON.parse(
+        localStorage.getItem("puan_resultados") || "[]"
+    );
 
-            const actual = preguntas[numeroImagen];
+    resultados.push(resultado);
 
-            imagen.style.display = "block";
+    localStorage.setItem(
+        "puan_resultados",
+        JSON.stringify(resultados)
+    );
 
-            imagen.onerror = function() {
+}
 
-                mensaje.textContent =
-                    "No se pudo cargar la imagen: " + actual.imagen;
 
-                mensaje.style.color = "red";
+// ===================================
+// CARGAR IMAGEN
+// ===================================
 
-            };
+function cargarImagen() {
 
-            imagen.onload = function() {
-                mensaje.textContent = "";
-            };
+    if (numeroImagen >= preguntas.length) {
+        terminarJuego();
+        return;
+    }
 
-            imagen.src = actual.imagen;
-            imagen.alt = "Imagen de Puan";
+    respondido = false;
 
-            progreso.textContent =
-                "Imagen " + (numeroImagen + 1) +
-                " de " + preguntas.length;
+    const actual = preguntas[numeroImagen];
 
-            mensaje.textContent = "";
+    imagen.style.display = "block";
+    progreso.style.display = "block";
+    pregunta.style.display = "block";
+    opciones.style.display = "flex";
 
-            opciones.innerHTML = "";
+    resultadoFinal.style.display = "none";
 
-            actual.opciones.forEach(function(respuesta) {
+    imagen.src = actual.imagen;
 
-                const boton = document.createElement("button");
+    imagen.alt = "Imagen de Puan";
 
-                boton.className = "opcion";
+    imagen.onerror = function() {
+        mensaje.textContent =
+            "No se pudo cargar la imagen: " + actual.imagen;
 
-                boton.textContent = respuesta;
+        mensaje.style.color = "red";
+    };
 
-                boton.addEventListener("click", function() {
+    progreso.textContent =
+        "Imagen " + (numeroImagen + 1) +
+        " de " + preguntas.length;
 
-                    comprobarRespuesta(respuesta);
+    pregunta.textContent = "¿Qué lugar aparece?";
 
-                });
+    mensaje.textContent = "";
 
-                opciones.appendChild(boton);
+    opciones.innerHTML = "";
 
-            });
+    actual.opciones.forEach(function(respuesta) {
 
-            actualizarPuntaje();
+        const boton = document.createElement("button");
 
-        }
+        boton.className = "opcion";
 
+        boton.textContent = respuesta;
 
-        // COMPROBAR RESPUESTA
+        boton.addEventListener("click", function() {
+            comprobarRespuesta(respuesta);
+        });
 
-        function comprobarRespuesta(respuesta) {
+        opciones.appendChild(boton);
 
-            if (respondido) {
-                return;
-            }
+    });
 
-            respondido = true;
+    actualizarPuntaje();
 
-            const correcta = preguntas[numeroImagen].correcta;
+}
 
-            if (respuesta === correcta) {
 
-                mensaje.textContent =
-                    "¡Correcto!  Sumaste 10 puntos.";
+// ===================================
+// COMPROBAR RESPUESTA
+// ===================================
 
-                mensaje.style.color = "green";
+function comprobarRespuesta(respuesta) {
 
-                puntaje = puntaje + 10;
+    if (respondido) return;
 
-                actualizarPuntaje();
+    respondido = true;
 
-            } else {
+    const correcta = preguntas[numeroImagen].correcta;
 
-                mensaje.textContent =
-                    "¡Incorrecto! La respuesta correcta era: " +
-                    correcta + ".";
+    if (respuesta === correcta) {
 
-                mensaje.style.color = "red";
+        mensaje.textContent =
+            "¡Correcto! Sumaste 10 puntos.";
 
-            }
+        mensaje.style.color = "green";
 
+        puntosActividad += 10;
 
-            // DESACTIVAR BOTONES
+        sumarPuntos(10);
 
-            opciones.querySelectorAll("button").forEach(function(boton) {
+    } else {
 
-                boton.disabled = true;
+        mensaje.textContent =
+            "¡Incorrecto! La respuesta correcta era: " + correcta;
 
-            });
+        mensaje.style.color = "red";
 
+    }
 
-            // PASAR A LA SIGUIENTE IMAGEN
+    opciones.querySelectorAll("button").forEach(function(boton) {
+        boton.disabled = true;
+    });
 
-            setTimeout(function() {
+    actualizarPuntaje();
 
-                numeroImagen++;
+    setTimeout(function() {
 
-                cargarImagen();
-
-            }, 1500);
-
-        }
-
-
-        // INICIAR JUEGO
+        numeroImagen++;
 
         cargarImagen();
 
-    </script>
+    }, 1500);
 
-<script src="js/comun.js"></script>
-<script src="js/imagenes-puan.js"></script>
+}
+
+
+// ===================================
+// TERMINAR JUEGO
+// ===================================
+
+function terminarJuego() {
+
+    imagen.style.display = "none";
+    progreso.style.display = "none";
+    pregunta.style.display = "none";
+    opciones.style.display = "none";
+
+    guardarResultado();
+
+    mensaje.textContent = "¡Completaste todas las imágenes!";
+
+    mensaje.style.color = "green";
+
+    puntajeTexto.textContent =
+        "Puntaje final: " + puntosActividad + " puntos";
+
+    document.getElementById("puntajeFinal").textContent =
+        "Obtuviste " + puntosActividad + " de 110 puntos.";
+
+    resultadoFinal.style.display = "block";
+
+}
+
+
+// ===================================
+// INICIAR JUEGO
+// ===================================
+
+cargarImagen();
+
+</script>
 
 </body>
 </html>
-
+ 
