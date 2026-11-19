@@ -44,7 +44,22 @@ p{line-height:1.55;font-weight:500}
 }
 .btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 #b93a6c}
 .btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b93a6c}
+.btn.secundario{background:var(--lila);box-shadow:0 5px 0 #8a76d6}
+.btn.secundario:hover{box-shadow:0 7px 0 #8a76d6}
+.btn.secundario:active{box-shadow:0 2px 0 #8a76d6}
 :focus-visible{outline:3px solid var(--lila);outline-offset:3px}
+
+/* Campo de nombre */
+.campo-label{display:block;font-weight:700;margin-top:20px;margin-bottom:6px}
+.campo{
+  width:100%;font:600 1rem var(--sans);color:var(--ciruela);
+  background:var(--crema);border:2px solid var(--rosa-claro);
+  border-radius:16px;padding:14px 16px;transition:border-color .15s;
+}
+.campo:focus{border-color:var(--rosa);outline:none}
+.campo::placeholder{color:var(--rosa-viejo);font-weight:500}
+.error{min-height:1.4em;margin-top:8px;color:var(--mal);font-weight:700;font-size:.9rem}
+
 .barra{height:12px;background:var(--rosa-claro);border-radius:999px;overflow:hidden;margin-top:6px}
 .barra span{display:block;height:100%;width:0;border-radius:999px;
   background:linear-gradient(90deg,var(--rosa),var(--lila));transition:width .5s ease}
@@ -66,6 +81,7 @@ p{line-height:1.55;font-weight:500}
 @keyframes entrar{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .puntaje{font-family:var(--serif);font-size:4.5rem;color:var(--rosa-fuerte);line-height:1;margin:12px 0}
 .centro{text-align:center}
+.acciones-final{display:flex;flex-wrap:wrap;gap:0 14px;justify-content:center}
 .volver{display:inline-block;margin-top:22px;color:var(--rosa-fuerte);font-weight:700;text-decoration:none}
 .volver:hover{text-decoration:underline}
 .chispa{position:fixed;top:-30px;pointer-events:none;animation:caer linear forwards;z-index:9}
@@ -97,12 +113,20 @@ p{line-height:1.55;font-weight:500}
 <main class="tarjeta">
   <div class="etiqueta">Trivia sobre Puán</div>
 
+  <!-- Inicio con nombre -->
   <section id="inicio" class="pantalla activa">
     <h1>¿Cuánto sabés de Puán?</h1>
     <p>Respondé 9 preguntas y descubrí tu puntaje final.</p>
+
+    <label class="campo-label" for="nombre">Tu nombre</label>
+    <input class="campo" id="nombre" type="text" maxlength="30"
+           autocomplete="given-name" placeholder="Escribí tu nombre">
+    <p class="error" id="error-nombre" aria-live="polite"></p>
+
     <button class="btn" id="empezar">Empezar</button>
   </section>
 
+  <!-- Juego -->
   <section id="juego" class="pantalla">
     <div class="meta"><span id="num"></span><span id="pts"></span></div>
     <div class="barra"><span id="prog"></span></div>
@@ -112,11 +136,15 @@ p{line-height:1.55;font-weight:500}
     <button class="btn" id="siguiente" hidden>Siguiente</button>
   </section>
 
+  <!-- Final -->
   <section id="final" class="pantalla centro">
     <h1 id="titulo-final"></h1>
     <div class="puntaje" id="puntaje-final"></div>
     <p id="mensaje-final"></p>
-    <button class="btn" id="reiniciar">Jugar de nuevo</button>
+    <div class="acciones-final">
+      <button class="btn secundario" id="reiniciar">Jugar de nuevo</button>
+      <button class="btn" id="finalizar">Finalizar y ver resultados</button>
+    </div>
   </section>
 
   <a class="volver" href="menu.html">Volver al menú</a>
@@ -132,81 +160,10 @@ p{line-height:1.55;font-weight:500}
   </svg>
 </div>
 
-<script>
-const $ = id => document.getElementById(id);
-let i = 0, puntos = 0;
 
-const PREGUNTAS = [
-  {p:"¿Qué significa el nombre Puán?", o:["Tierra de vientos","Dos soles","Lugar de piedras"], c:1},
-  {p:"¿Qué hay en el medio de la Laguna de Puán?", o:["Un faro","Una isla","Un castillo"], c:1},
-  {p:"¿Qué animal prehistórico se puede conocer en el museo de Puán?", o:["Un dinosaurio carnívoro","Un gliptodonte","Un mamut lanudo"], c:1},
-  {p:"¿Qué tiene de particular el Mirador Millenium?", o:["Tiene rampas de acceso en espiral","Está construido dentro de la laguna","Es una torre de madera"], c:0},
-  {p:"¿Qué fiesta nacional es característica de Puán?", o:["Fiesta Nacional del Trigo","Fiesta Nacional de la Cebada Cervecera","Fiesta Nacional del Panqueque"], c:1},
-  {p:"¿Qué famoso cantante está relacionado con la llamada Casita de Gardel?", o:["Carlos Gardel","Atahualpa Yupanqui","Melbourne"], c:0},
-  {p:"Mito o realidad: ¿Es cierto que Carlos Gardel cantó en la famosa Casita de Gardel de Puán en 1924?", o:["Mito","Realidad"], c:1},
-  {p:"Mito o realidad: ¿En el distrito de Puán se encontraron restos de animales prehistóricos que vivieron hace miles de años?", o:["Mito","Realidad"], c:1},
-  {p:"Mito o realidad: ¿Puán fue fundado antes de 1850?",  o:["Mito","Realidad"], c:0}
-];
-
-function mostrar(id){
-  document.querySelectorAll(".pantalla").forEach(s => s.classList.remove("activa"));
-  $(id).classList.add("activa");
-}
-function cargar(){
-  const q = PREGUNTAS[i];
-  $("num").textContent = `Pregunta ${i+1} de ${PREGUNTAS.length}`;
-  $("pts").textContent = `⭐ ${puntos}`;
-  $("prog").style.width = (i / PREGUNTAS.length * 100) + "%";
-  $("pregunta").textContent = q.p;
-  $("aviso").textContent = "";
-  $("siguiente").hidden = true;
-  $("opciones").innerHTML = "";
-  q.o.forEach((t, n) => {
-    const b = document.createElement("button");
-    b.className = "op"; b.textContent = t;
-    b.onclick = () => responder(n);
-    $("opciones").appendChild(b);
-  });
-}
-function responder(n){
-  const q = PREGUNTAS[i], bs = document.querySelectorAll(".op");
-  bs.forEach(b => b.disabled = true);
-  bs[q.c].classList.add("ok");
-  if (n === q.c){ puntos++; $("aviso").textContent = "¡Correcto! 💖"; }
-  else { bs[n].classList.add("mal"); $("aviso").textContent = "Casi. La respuesta correcta está en verde."; }
-  $("pts").textContent = `⭐ ${puntos}`;
-  $("siguiente").textContent = i === PREGUNTAS.length - 1 ? "Ver resultado" : "Siguiente";
-  $("siguiente").hidden = false;
-  $("siguiente").focus();
-}
-function terminar(){
-  $("prog").style.width = "100%";
-  const total = PREGUNTAS.length, r = puntos / total;
-  $("puntaje-final").textContent = `${puntos}/${total}`;
-  $("titulo-final").textContent = r === 10 ? "¡Puntaje perfecto!" : r >= .60 ? "¡Muy bien!" : "¡Seguí practicando!";
-  $("mensaje-final").textContent = r >= .60
-    ? "Se nota que conocés Puán."
-    : "Repasá y volvé a intentarlo.";
-  mostrar("final");
-  if (r >= .60) lluvia();
-}
-function lluvia(){
-  const em = ["💖","✨","🌸","⭐","🎀"];
-  for (let k = 0; k < 24; k++){
-    const s = document.createElement("span");
-    s.className = "chispa"; s.textContent = em[k % em.length];
-    s.style.left = Math.random() * 100 + "vw";
-    s.style.fontSize = 16 + Math.random() * 18 + "px";
-    s.style.animationDuration = 2.5 + Math.random() * 2.5 + "s";
-    s.style.animationDelay = Math.random() * 1.2 + "s";
-    document.body.appendChild(s);
-    setTimeout(() => s.remove(), 7000);
-  }
-}
-
-$("empezar").onclick = () => { i = 0; puntos = 0; mostrar("juego"); cargar(); };
-$("siguiente").onclick = () => { i++; i < PREGUNTAS.length ? cargar() : terminar(); };
-$("reiniciar").onclick = () => $("empezar").click();
-</script>
+<!-- Sistema compartido: debe cargarse ANTES del script de la trivia -->
+<script src="js/comun.js"></script>
+<!-- Lógica de la trivia (incluye el bloque de pruebas por si falta comun.js) -->
+<script src="js/trivia.js"></script>
 </body>
 </html>
