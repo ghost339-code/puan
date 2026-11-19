@@ -1,14 +1,417 @@
+
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Imágenes de Puan</title><link rel="stylesheet" href="css/estilos.css"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>¿De dónde es esta imagen? - Puan</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f5;
+            color: #222;
+            text-align: center;
+        }
+
+        header {
+            background: #245b75;
+            color: white;
+            padding: 22px 12px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            width: 92%;
+            max-width: 760px;
+            margin: 28px auto;
+            background: white;
+            padding: 24px;
+            border-radius: 14px;
+            box-shadow: 0 3px 14px #00000018;
+        }
+
+        #puntaje {
+            font-size: 22px;
+            color: #245b75;
+        }
+
+        #progreso {
+            color: #555;
+        }
+
+        .imagen {
+            display: block;
+            width: 100%;
+            max-height: 430px;
+            object-fit: contain;
+            margin: 18px auto;
+            border-radius: 8px;
+            background: #eee;
+        }
+
+        .opciones {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .opcion, .boton {
+            border: 0;
+            border-radius: 8px;
+            padding: 12px 18px;
+            background: #245b75;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .opcion:hover, .boton:hover {
+            background: #173e52;
+        }
+
+        .opcion:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #mensaje {
+            min-height: 28px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
 <body>
-  <header><h1>¿De dónde es esta imagen?</h1></header>
-  <main class="contenedor tarjeta actividad">
-    <img class="imagen" src="https://placehold.co/700x350?text=Agregar+imagen+de+Puan" alt="Imagen de un lugar de Puan">
-    <h2>¿Qué lugar aparece?</h2>
-    <div class="opciones"><button class="opcion">Lugar 1</button><button class="opcion">Lugar 2</button><button class="opcion">Lugar 3</button></div>
-    <p id="mensaje"></p><a class="boton secundario" href="menu.html">Volver al menú</a>
-  </main>
-  <script src="js/imagenes-puan.js"></script>
+
+    <header>
+        <h1>¿De dónde es esta imagen?</h1>
+    </header>
+
+    <main>
+
+        <h3 id="puntaje">Puntaje: 0 puntos</h3>
+
+        <h3 id="progreso">Imagen 1 de 11</h3>
+
+        <img
+            id="imagen"
+            class="imagen"
+            src="img/terminal(1).jpg"
+            alt="Lugar de Puan"
+        >
+
+        <h2 id="pregunta">¿Qué lugar aparece?</h2>
+
+        <div class="opciones" id="opciones"></div>
+
+        <p id="mensaje"></p>
+
+        <a class="boton" href="menu.html" id="volver">
+            Volver al menú
+        </a>
+
+    </main>
+
+    <script>
+
+        // LISTA DE IMÁGENES Y RESPUESTAS
+
+        const preguntas = [
+
+            {
+                imagen: "img/terminal.jpg",
+                correcta: "Terminal",
+                opciones: [
+                    "Terminal",
+                    "Escuela Almafuerte",
+                    "Polideportivo"
+                ]
+            },
+
+            {
+                imagen: "img/palomar.jpg",
+                correcta: "Palomar",
+                opciones: [
+                    "Museo",
+                    "Palomar",
+                    "Estación de tren"
+                ]
+            },
+
+            {
+                imagen: "img/estaciondetren.jpg",
+                correcta: "Estación de tren",
+                opciones: [
+                    "Estación de tren",
+                    "malteria",
+                    "Laguna de Puan"
+                ]
+            },
+
+            {
+                imagen: "img/ruinas.jpg",
+                correcta: "Ruinas históricas",
+                opciones: [
+                    "Predio FNCC",
+                    "Ruinas históricas",
+                    "Terminal"
+                ]
+            },
+
+            {
+                imagen: "img/predio.jpg",
+                correcta: "Predio FNCC",
+                opciones: [
+                    "Polideportivo",
+                    "Predio FNCC",
+                    "Museo"
+                ]
+            },
+
+            {
+                imagen: "img/fuerte.jpg",
+                correcta: "fuerte de puan",
+                opciones: [
+                    "entrada de puan",
+                    "fuerte de puan",
+                    "Polideportivo"
+                ]
+            },
+
+            {
+                imagen: "img/polideportivo.jpg",
+                correcta: "Polideportivo",
+                opciones: [
+                    "Laguna de Puan",
+                    "Predio FNCC",
+                    "Polideportivo"
+                ]
+            },
+
+            {
+                imagen: "img/centrodeinformatica.jpg",
+                correcta: "Centro de Informática",
+                opciones: [
+                    "Museo",
+                    "Centro de Informática",
+                    "Escuela Almafuerte"
+                ]
+            },
+
+            {
+                imagen: "img/museo.jpg",
+                correcta: "Museo",
+                opciones: [
+                    "Palomar",
+                    "Museo",
+                    "Terminal"
+                ]
+            },
+
+            {
+                imagen: "img/laguna.jpg",
+                correcta: "Laguna de Puan",
+                opciones: [
+                    "Laguna de Puan",
+                    "malteria",
+                    "Ruinas históricas"
+                ]
+            },
+
+            {
+                imagen: "img/malteria.jpg",
+                correcta: "malteria",
+                opciones: [
+                    "Estación de tren",
+                    "malteria",
+                    "Centro de Informática"
+                ]
+            }
+
+        ];
+
+
+        // VARIABLES
+
+        let numeroImagen = 0;
+        let puntaje = 0;
+        let respondido = false;
+
+
+        // ELEMENTOS
+
+        const imagen = document.getElementById("imagen");
+        const opciones = document.getElementById("opciones");
+        const mensaje = document.getElementById("mensaje");
+        const puntajeTexto = document.getElementById("puntaje");
+        const progreso = document.getElementById("progreso");
+
+
+        // ACTUALIZAR PUNTAJE
+
+        function actualizarPuntaje() {
+
+            puntajeTexto.textContent =
+                "Puntaje: " + puntaje + " puntos";
+
+        }
+
+
+        // CARGAR IMAGEN
+
+        function cargarImagen() {
+
+            if (numeroImagen >= preguntas.length) {
+
+                imagen.style.display = "none";
+                progreso.style.display = "none";
+                document.getElementById("pregunta").style.display = "none";
+                opciones.style.display = "none";
+
+                mensaje.textContent = "¡Completaste todas las imágenes!";
+                return;
+
+            }
+
+            respondido = false;
+
+            const actual = preguntas[numeroImagen];
+
+            imagen.style.display = "block";
+
+            imagen.onerror = function() {
+
+                mensaje.textContent =
+                    "No se pudo cargar la imagen: " + actual.imagen;
+
+                mensaje.style.color = "red";
+
+            };
+
+            imagen.onload = function() {
+                mensaje.textContent = "";
+            };
+
+            imagen.src = actual.imagen;
+            imagen.alt = "Imagen de Puan";
+
+            progreso.textContent =
+                "Imagen " + (numeroImagen + 1) +
+                " de " + preguntas.length;
+
+            mensaje.textContent = "";
+
+            opciones.innerHTML = "";
+
+            actual.opciones.forEach(function(respuesta) {
+
+                const boton = document.createElement("button");
+
+                boton.className = "opcion";
+
+                boton.textContent = respuesta;
+
+                boton.addEventListener("click", function() {
+
+                    comprobarRespuesta(respuesta);
+
+                });
+
+                opciones.appendChild(boton);
+
+            });
+
+            actualizarPuntaje();
+
+        }
+
+
+        // COMPROBAR RESPUESTA
+
+        function comprobarRespuesta(respuesta) {
+
+            if (respondido) {
+                return;
+            }
+
+            respondido = true;
+
+            const correcta = preguntas[numeroImagen].correcta;
+
+            if (respuesta === correcta) {
+
+                mensaje.textContent =
+                    "¡Correcto!  Sumaste 10 puntos.";
+
+                mensaje.style.color = "green";
+
+                puntaje = puntaje + 10;
+
+                actualizarPuntaje();
+
+            } else {
+
+                mensaje.textContent =
+                    "¡Incorrecto! La respuesta correcta era: " +
+                    correcta + ".";
+
+                mensaje.style.color = "red";
+
+            }
+
+
+            // DESACTIVAR BOTONES
+
+            opciones.querySelectorAll("button").forEach(function(boton) {
+
+                boton.disabled = true;
+
+            });
+
+
+            // PASAR A LA SIGUIENTE IMAGEN
+
+            setTimeout(function() {
+
+                numeroImagen++;
+
+                cargarImagen();
+
+            }, 1500);
+
+        }
+
+
+        // INICIAR JUEGO
+
+        cargarImagen();
+
+    </script>
+
+    <!-- ARCHIVOS DEL SISTEMA COMPARTIDO -->
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script src="js/comun.js"></script>
+<script src="js/imagenes-puan.js"></script>
+
 </body>
 </html>
+
