@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa interactivo</title>
   <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
   <header>
@@ -12,28 +13,27 @@
   </header>
 
   <main class="contenedor tarjeta actividad">
-    <img class="imagen" src="img/mapaPuan.png" alt="Mapa de Puan">
-    <p>Aprendé sobre las ubicaciones más importantes de Puán</p>
+    <p id="instruccion">Mirá el lugar marcado en el mapa y elegí su nombre.</p>
+    <p id="marcador-puntos" aria-live="polite">Puntos en este juego: <strong id="puntos">0</strong> | Lugar <span id="numero-ronda">1</span> de <span id="total-rondas">8</span></p>
 
-    <div class="opciones">
-      <button class="opcion">Malteria Pampa S.A</button>
-      <button class="opcion">Laguna de Puán</button>
-      <button class="opcion">Milenium</button>
-      <button class="opcion">Polideportivo</button>
-      <button class="opcion">Predio de la FNCC</button>
-      <button class="opcion">Cancha de Tiro Federal</button>
-      <button class="opcion">Cancha de Puán Football Club</button>
-    </div>
+    <button id="boton-ampliar-mapa" class="boton secundario" type="button" style="margin-bottom:8px;">Ampliar mapa</button>
+    <div id="mapa-juego" style="width:100%; height:380px; margin:0 auto 12px; border-radius:8px; overflow:hidden;"></div>
 
-    <div id="informacion" class="informacion-lugar">
+    <div id="opciones" class="opciones" aria-label="Opciones de respuesta"></div>
+    <p id="resultado" aria-live="polite"></p>
+    <div id="informacion" class="informacion-lugar" hidden>
       <h2 id="nombre-lugar"></h2>
-      <img id="imagen-lugar" src="" alt="">
+      <img id="imagen-lugar" src="" alt="" style="width:100%; max-height:210px; object-fit:cover; border-radius:8px;">
+      <div id="foto-no-disponible" hidden style="min-height:150px; display:none; align-items:center; justify-content:center; background:#eaf1f5; border-radius:8px; color:#567; margin:10px 0;">Foto de este lugar no disponible</div>
       <p id="descripcion-lugar"></p>
     </div>
-
+    <button id="siguiente" class="boton secundario" type="button" hidden>Siguiente lugar</button>
+    <button id="reiniciar" class="boton secundario" type="button" hidden>Jugar de nuevo</button>
     <a class="boton secundario" href="menu.html">Volver al menú</a>
   </main>
 
+  <script src="js/comun.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/mapa.js"></script>
 </body>
 </html>
