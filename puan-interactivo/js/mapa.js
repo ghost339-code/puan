@@ -43,8 +43,8 @@ const lugares = [
     },
     {
         nombre: "Cancha del Club Independiente",
-        imagen: null,
-        descripcion: "Es el estadio del Club Atlético Independiente de Puan.",
+        imagen: "img/cai.jpeg",
+        descripcion: "Es la cancha del Club Atlético Independiente de Puan.",
         lat: -37.53925, lng: -62.76386
     }
 ];
