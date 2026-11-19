@@ -1,18 +1,62 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Puan Interactivo</title>
-  <link rel="stylesheet" href="css/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puan Interactivo</title>
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-  <header><h1>Puan Interactivo</h1><p>Conocé nuestra escuela y nuestro pueblo</p></header>
-  <main class="contenedor tarjeta">
-    <h2>¿Cuánto conocés Puan?</h2>
-    <p>Participá de las actividades y sumá puntos.</p>
-    <a class="boton" href="menu.html">Comenzar</a>
-  </main>
-  <footer>Proyecto realizado por estudiantes de la escuela</footer>
+
+    <header>
+        <h1>¡Bienvenidos a Puan Interactivo!</h1>
+        <p>Conocé, descubrí y jugá con nuestra escuela y nuestro pueblo</p>
+    </header>
+
+    <main class="contenedor">
+
+        <h2>¡Comienza tu aventura!</h2>
+
+        <p>
+            ¿Cuánto conocés Puan y nuestra escuela?
+            Te invitamos a descubrirlo a través de diferentes juegos y desafíos.
+        </p>
+
+        <div class="nombre-container">
+            <label for="nombre">👤 Ingresá tu nombre o apodo:</label>
+            <input type="text" id="nombre" placeholder="Escribí tu nombre">
+        </div>
+
+        <h3>¿Qué vas a encontrar?</h3>
+
+        <ul>
+            <li>🎮 Juegos y actividades interactivas.</li>
+            <li>🧠 Preguntas sobre nuestra escuela y Puan.</li>
+            <li>⭐ Desafíos para poner a prueba tus conocimientos.</li>
+            <li>🏆 Puntos por cada respuesta correcta.</li>
+        </ul>
+
+        <button class="boton-jugar" onclick="comenzarJuego()">¡Comenzar a jugar!</button>
+
+    </main>
+
+    <script>
+        function comenzarJuego() {
+            let nombre = document.getElementById("nombre").value.trim();
+
+            if (nombre === "") {
+                alert("Por favor, ingresá tu nombre o apodo.");
+                return;
+            }
+
+            localStorage.setItem("nombreJugador", nombre);
+
+            // Acá podés colocar la página de tu juego.
+             window.location.href = "menu.html";
+        }
+    </script>
 </body>
 </html>
+
