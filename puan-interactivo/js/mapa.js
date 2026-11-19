@@ -1,9 +1,8 @@
-
 const lugares = {
     "Malteria Pampa S.A": {
         nombre: "Maltería Pampa S.A.",
         imagen: "img/malteria.jpg",
-        descripcion: "Es una importante planta industrial de Puan dedicada a la producción de malta, un ingrediente fundamental para la elaboración de cerveza. "
+        descripcion: "Es una importante planta industrial de Puan dedicada a la producción de malta, un ingrediente fundamental para la elaboración de cerveza."
     },
 
     "Laguna de Puán": {
@@ -21,13 +20,13 @@ const lugares = {
     "Polideportivo": {
         nombre: "Polideportivo",
         imagen: "img/polideportivo.jpg",
-        descripcion: "Es un espacio municipal destinado a la práctica de deportes y actividades recreativas. Cuenta con instalaciones para distintas disciplinas y eventos deportivos. "
+        descripcion: "Es un espacio municipal destinado a la práctica de deportes y actividades recreativas. Cuenta con instalaciones para distintas disciplinas y eventos deportivos."
     },
 
     "Predio de la FNCC": {
         nombre: "Predio de la FNCC",
         imagen: "img/fncc.jpg",
-        descripcion: "Es el lugar donde se realiza la Fiesta Nacional de la Cebada Cervecera. Cuenta con espacios para espectáculos, ferias, gastronomía y actividades tradicionales. "
+        descripcion: "Es el lugar donde se realiza la Fiesta Nacional de la Cebada Cervecera. Cuenta con espacios para espectáculos, ferias, gastronomía y actividades tradicionales."
     },
 
     "Cancha de Tiro Federal": {
@@ -39,14 +38,12 @@ const lugares = {
     "Cancha de Puán Football Club": {
         nombre: "Cancha de Puan Football Club",
         imagen: "img/puanfc.jpg",
-        descripcion: "Es el estadio Evaristo García, donde juega de local Puan Football Club. Es un espacio importante para el fútbol y la vida deportiva de la comunidad. "
+        descripcion: "Es el estadio Evaristo García, donde juega de local Puan Football Club. Es un espacio importante para el fútbol y la vida deportiva de la comunidad."
     }
 };
 
-document.querySelectorAll(".opcion").forEach(function(boton) {
-
-    boton.addEventListener("click", function() {
-
+document.querySelectorAll(".opcion").forEach(function (boton) {
+    boton.addEventListener("click", function () {
         const lugar = lugares[boton.textContent.trim()];
 
         if (lugar) {
@@ -56,11 +53,10 @@ document.querySelectorAll(".opcion").forEach(function(boton) {
             imagen.src = lugar.imagen;
             imagen.alt = lugar.nombre;
 
-            document.getElementById("descripcion-lugar").textContent = lugar.descripcion;
+            document.getElementById("descripcion-lugar").textContent =
+                lugar.descripcion;
 
             document.getElementById("informacion").style.display = "block";
         }
-
     });
-
 });
